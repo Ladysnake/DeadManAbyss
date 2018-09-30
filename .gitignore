@@ -1,0 +1,25 @@
+classes
+
+# eclipse
+bin
+.settings
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+src\main\resources\assets\minecraft
+Dissolution.wiki
+tags

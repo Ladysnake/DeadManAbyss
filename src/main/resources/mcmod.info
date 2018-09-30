@@ -1,0 +1,20 @@
+[
+  {
+    "modid": "${modid}",
+    "name": "${name}",
+    "description": "${description}",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "${url}",
+    "updateUrl": "${updateUrl}",
+    "authorList": [
+      "Pyrofab",
+      "UpcraftLP",
+      "RiverLeviathan"
+    ],
+    "credits": "(C)2018-${year} Ladysnake",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
