@@ -1,9 +1,12 @@
 package ladysnake.bansheenight;
 
+import ladysnake.bansheenight.network.PacketHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(
         modid = BansheeNight.MOD_ID,
@@ -19,6 +22,7 @@ public class BansheeNight {
     public static final String VERSION = "@VERSION@";
 
     public static final BansheeNight INSTANCE = new BansheeNight();
+    public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
     /**
      * This is the first initialization event. Register tile entities here.
@@ -34,7 +38,7 @@ public class BansheeNight {
      */
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-
+        PacketHandler.initPackets();
     }
 
     /**
