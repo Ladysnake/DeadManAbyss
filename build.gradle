@@ -85,14 +85,16 @@ repositories {
 }
 
 configurations {
-    contained
-    contained.transitive = false
+    contained {
+        transitive = false
+    }
+    compile.extendsFrom contained
 }
 
 dependencies {
-    compile "com.github.Ladysnake:Ladylib:${ll_version}"
+    //compile "com.github.Ladysnake:Ladylib:${ll_version}"
     contained "com.github.Ladysnake:Ladylib:${ll_version}"
-    compile "com.github.GlassPane:GlassPane:${gp_version}"
+    //compile "com.github.GlassPane:GlassPane:${gp_version}"
     contained "com.github.GlassPane:GlassPane:${gp_version}"
 //    compile "com.github.Ladysnake:Dissolution:${dis_version}:api"
 //    contained "com.github.Ladysnake:Dissolution:${dis_version}:api"
