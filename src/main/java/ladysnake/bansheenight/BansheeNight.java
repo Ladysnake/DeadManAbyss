@@ -1,10 +1,12 @@
 package ladysnake.bansheenight;
 
+import ladysnake.bansheenight.command.CommandBansheeNight;
 import ladysnake.bansheenight.network.PacketHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,6 +49,11 @@ public class BansheeNight {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
 
+    }
+
+    @Mod.EventHandler
+    public void serverStart(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandBansheeNight());
     }
 
     @Mod.InstanceFactory
