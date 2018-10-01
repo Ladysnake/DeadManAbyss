@@ -3,6 +3,7 @@ package ladysnake.bansheenight.worldevent;
 import ladylib.compat.EnhancedBusSubscriber;
 import ladysnake.bansheenight.BansheeNightConfig;
 import ladysnake.bansheenight.capability.CapabilityBansheeNight;
+import ladysnake.bansheenight.entity.EntityBanshee;
 import ladysnake.bansheenight.network.BansheeNightMessage;
 import ladysnake.bansheenight.network.PacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,10 +42,12 @@ public class BansheeNightHandler {
 
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof EntityPlayerMP) {
-            CapabilityBansheeNight cap = event.getWorld().getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
-            if (cap != null) {
+        CapabilityBansheeNight cap = event.getWorld().getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
+        if (cap != null) {
+            if (event.getEntity() instanceof EntityPlayerMP) {
                 PacketHandler.NET.sendTo(new BansheeNightMessage(cap.isBansheeNightOccurring()), (EntityPlayerMP) event.getEntity());
+            } else if (!(event.getEntity() instanceof EntityBanshee) && cap.isBansheeNightOccurring()) {
+                event.setCanceled(true);
             }
         }
     }
