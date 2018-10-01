@@ -157,13 +157,13 @@ task apiJar(type: Jar) {
         project.hasProperty("api_package")
     }
     from sourceSets.api.allJava
-    include new String(findProperty("api_package") + "/**").replace(".", "/")
+    include "${findProperty("api_package")}/**"
     from("LICENSE") {
         include "*"
     }
     manifest.mainAttributes(
             "Built-On-Java": "${System.getProperty('java.vm.version')} + (${System.getProperty('java.vm.vendor')})",
-            "Implementation-Title": project.name + '-api',
+            "Implementation-Title": "${project.name}-api",
             "Implementation-Version": project.version,
             "Maven-Artifact": "${project.group}:${project.archivesBaseName}:${project.version}:api",
             "Built-On": "${mc_version}-${forge_version}"
