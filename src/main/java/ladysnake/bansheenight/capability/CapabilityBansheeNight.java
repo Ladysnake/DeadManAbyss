@@ -16,11 +16,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * A world capability used to control whether a world can start a banshee night
  */
-@AutoCapability
+@AutoCapability(value = CapabilityBansheeNight.class, storage = Capability.IStorage.class)
 @Mod.EventBusSubscriber(modid = BansheeNight.MOD_ID)
 public class CapabilityBansheeNight {
     private int ticksSinceLastNight;
-    private World owner;
+    private transient World owner;
 
     public CapabilityBansheeNight(World owner) {
         this.owner = owner;

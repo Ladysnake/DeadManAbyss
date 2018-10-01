@@ -25,7 +25,7 @@ import java.util.function.Predicate;
 
 @EnhancedBusSubscriber(side = Side.CLIENT)
 public class BansheeNightShaderManager implements StateEventReceiver, ISelectiveResourceReloadListener {
-    public static final ResourceLocation NIGHT_SHADER = new ResourceLocation(BansheeNight.MOD_ID, "darkness");
+    public static final ResourceLocation NIGHT_SHADER = new ResourceLocation(BansheeNight.MOD_ID, "shaders/darkness");
     private ShaderGroup shader;
 
     @Override
