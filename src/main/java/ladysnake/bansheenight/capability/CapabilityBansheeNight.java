@@ -41,12 +41,20 @@ public class CapabilityBansheeNight {
 
     public void startBansheeNight() {
         if (!MinecraftForge.EVENT_BUS.post(new BansheeNightEvent.Start(owner))) {
+            if (owner instanceof WorldServer) {
+                // TODO don't be retarded and send only to the right dimension - pyrofab
+                PacketHandler.NET.sendToAll(new BansheeNightMessage(true));
+            }
             this.ticksSinceLastNight = -1;
         }
     }
 
     public void stopBansheeNight() {
         if (!MinecraftForge.EVENT_BUS.post(new BansheeNightEvent.Stop(owner))) {
+            if (owner instanceof WorldServer) {
+                // TODO don't be retarded and send only to the right dimension - pyrofab
+                PacketHandler.NET.sendToAll(new BansheeNightMessage(false));
+            }
             this.ticksSinceLastNight = 0;
         }
     }
