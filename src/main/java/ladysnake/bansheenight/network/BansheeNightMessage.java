@@ -1,12 +1,14 @@
 package ladysnake.bansheenight.network;
 
 import io.netty.buffer.ByteBuf;
+import ladylib.misc.CalledThroughReflection;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class BansheeNightMessage implements IMessage {
     // true if occurring, false if stopping
     boolean occurring;
 
+    @CalledThroughReflection
     public BansheeNightMessage() {
         super();
     }
