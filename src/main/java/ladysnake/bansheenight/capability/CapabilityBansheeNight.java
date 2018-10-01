@@ -16,11 +16,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * A world capability used to control whether a world can start a banshee night
  */
+// the storage declaration is NOT redundant, my lib is just broken right now
 @AutoCapability(value = CapabilityBansheeNight.class, storage = Capability.IStorage.class)
 @Mod.EventBusSubscriber(modid = BansheeNight.MOD_ID)
 public class CapabilityBansheeNight {
     private int ticksSinceLastNight;
     private transient World owner;
+
+    public CapabilityBansheeNight() {
+        super();
+    }
 
     public CapabilityBansheeNight(World owner) {
         this.owner = owner;

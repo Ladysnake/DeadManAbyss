@@ -15,12 +15,14 @@ public class BansheeNightPacket implements IMessageHandler<BansheeNightMessage, 
     public IMessage onMessage(BansheeNightMessage message, MessageContext ctx) {
         if (ctx.side.isClient()) {
             World world = Minecraft.getMinecraft().world;
-            CapabilityBansheeNight cap = world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
-            if (cap != null) {
-                if (message.occurring) {
-                    cap.startBansheeNight();
-                } else {
-                    cap.stopBansheeNight();
+            if (world != null) {
+                CapabilityBansheeNight cap = world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
+                if (cap != null) {
+                    if (message.occurring) {
+                        cap.startBansheeNight();
+                    } else {
+                        cap.stopBansheeNight();
+                    }
                 }
             }
         }
