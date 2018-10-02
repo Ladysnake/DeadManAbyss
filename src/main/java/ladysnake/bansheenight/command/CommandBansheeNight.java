@@ -1,5 +1,6 @@
 package ladysnake.bansheenight.command;
 
+import ladysnake.bansheenight.api.event.BansheeNightHandler;
 import ladysnake.bansheenight.capability.CapabilityBansheeNight;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -29,7 +30,7 @@ public class CommandBansheeNight extends CommandBase {
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length > 0) {
-            CapabilityBansheeNight cap = sender.getEntityWorld().getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
+            BansheeNightHandler cap = sender.getEntityWorld().getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
             if (cap != null) {
                 if (args[0].equals("on")) {
                     cap.startBansheeNight();

@@ -5,8 +5,11 @@ import ladylib.capability.SimpleProvider;
 import ladylib.misc.CalledThroughReflection;
 import ladysnake.bansheenight.BansheeNight;
 import ladysnake.bansheenight.api.event.BansheeNightEvent;
+import ladysnake.bansheenight.api.event.BansheeNightHandler;
 import ladysnake.bansheenight.network.BansheeNightMessage;
 import ladysnake.bansheenight.network.PacketHandler;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -20,9 +23,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 /**
  * A world capability used to control whether a world can start a banshee night
  */
-@AutoCapability
+@AutoCapability(BansheeNightHandler.class)
 @Mod.EventBusSubscriber(modid = BansheeNight.MOD_ID)
-public class CapabilityBansheeNight {
+public class CapabilityBansheeNight implements BansheeNightHandler {
     private int ticksSinceLastNight;
     private transient World owner;
 
@@ -35,43 +38,52 @@ public class CapabilityBansheeNight {
         this.owner = owner;
     }
 
+    @Override
     public int getTicksSinceLastNight() {
         return ticksSinceLastNight;
     }
 
+    @Override
     public void startBansheeNight() {
         if (!MinecraftForge.EVENT_BUS.post(new BansheeNightEvent.Start(owner))) {
             if (owner instanceof WorldServer) {
-                // TODO don't be retarded and send only to the right dimension - pyrofab
-                PacketHandler.NET.sendToAll(new BansheeNightMessage(true));
+                sendToWorld(true);
             }
             this.ticksSinceLastNight = -1;
         }
     }
 
+    @Override
     public void stopBansheeNight() {
         if (!MinecraftForge.EVENT_BUS.post(new BansheeNightEvent.Stop(owner))) {
             if (owner instanceof WorldServer) {
-                // TODO don't be retarded and send only to the right dimension - pyrofab
-                PacketHandler.NET.sendToAll(new BansheeNightMessage(false));
+                sendToWorld(false);
             }
             this.ticksSinceLastNight = 0;
         }
     }
 
+    private void sendToWorld(boolean start) {
+        for (EntityPlayer player : owner.playerEntities) {
+            PacketHandler.NET.sendTo(new BansheeNightMessage(start), (EntityPlayerMP) player);
+        }
+    }
+
+    @Override
     public void tick() {
         if (!this.isBansheeNightOccurring()) {
             this.ticksSinceLastNight++;
         }
     }
 
+    @Override
     public boolean isBansheeNightOccurring() {
         return this.ticksSinceLastNight < 0;
     }
 
     private static final ResourceLocation BANSHEE_NIGHT = new ResourceLocation(BansheeNight.MOD_ID, "banshee_night");
-    @CapabilityInject(CapabilityBansheeNight.class)
-    public static Capability<CapabilityBansheeNight> CAPABILITY_BANSHEE_NIGHT;
+    @CapabilityInject(BansheeNightHandler.class)
+    public static Capability<BansheeNightHandler> CAPABILITY_BANSHEE_NIGHT;
 
     @SubscribeEvent
     public static void onAttachCapabilities(AttachCapabilitiesEvent<World> event) {

@@ -1,5 +1,6 @@
 package ladysnake.bansheenight.network;
 
+import ladysnake.bansheenight.api.event.BansheeNightHandler;
 import ladysnake.bansheenight.capability.CapabilityBansheeNight;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
@@ -16,7 +17,7 @@ public class BansheeNightPacket implements IMessageHandler<BansheeNightMessage, 
         if (ctx.side.isClient()) {
             World world = Minecraft.getMinecraft().world;
             if (world != null) {
-                CapabilityBansheeNight cap = world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
+                BansheeNightHandler cap = world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
                 if (cap != null) {
                     if (message.occurring) {
                         cap.startBansheeNight();

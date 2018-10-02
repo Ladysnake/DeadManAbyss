@@ -2,6 +2,7 @@ package ladysnake.bansheenight.client;
 
 import ladylib.compat.EnhancedBusSubscriber;
 import ladysnake.bansheenight.BansheeNight;
+import ladysnake.bansheenight.api.event.BansheeNightHandler;
 import ladysnake.bansheenight.capability.CapabilityBansheeNight;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -33,7 +34,7 @@ public class BansheeNightShaderManager implements ISelectiveResourceReloadListen
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRenderWorldLast(RenderWorldLastEvent event) {
-        CapabilityBansheeNight cap = Minecraft.getMinecraft().world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
+        BansheeNightHandler cap = Minecraft.getMinecraft().world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
         if (cap != null && cap.isBansheeNightOccurring()) {
             if (this.shader != null) {
                 Minecraft mc = Minecraft.getMinecraft();
