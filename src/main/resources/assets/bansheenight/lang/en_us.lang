@@ -1,1 +1,6 @@
+#PARSE_ESCAPES
+
 bansheenight.command.no_cap=The banshee night capability is not attached to the current world
+
+entity.blind.name=Blind
+entity.banshee.name=Banshee
