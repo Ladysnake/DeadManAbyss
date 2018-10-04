@@ -1,23 +1,25 @@
 package ladysnake.bansheenight.init;
 
-import ladylib.compat.EnhancedBusSubscriber;
 import ladysnake.bansheenight.BansheeNight;
+import ladysnake.bansheenight.client.render.entity.RenderBanshee;
 import ladysnake.bansheenight.entity.EntityBanshee;
 import ladysnake.bansheenight.entity.EntityBlind;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-@EnhancedBusSubscriber(owner = BansheeNight.MOD_ID)
+@Mod.EventBusSubscriber(modid = BansheeNight.MOD_ID)
 public class ModEntities {
-    private int id = 0;
+    private static int id = 0;
 
     @SubscribeEvent
-    public void onRegistryRegister(RegistryEvent.Register<EntityEntry> event) {
+    public static void onRegistryRegister(RegistryEvent.Register<EntityEntry> event) {
         event.getRegistry().registerAll(
                 EntityEntryBuilder.create()
                         .entity(EntityBanshee.class)
@@ -38,5 +40,9 @@ public class ModEntities {
                         .factory(EntityBlind::new)
                         .build()
         );
+    }
+
+    public static void registerRenders() {
+        RenderingRegistry.registerEntityRenderingHandler(EntityBanshee.class, RenderBanshee::new);
     }
 }

@@ -1,7 +1,9 @@
 package ladysnake.bansheenight;
 
 import ladysnake.bansheenight.command.CommandBansheeNight;
+import ladysnake.bansheenight.init.ModEntities;
 import ladysnake.bansheenight.network.PacketHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -41,6 +43,9 @@ public class BansheeNight {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         PacketHandler.initPackets();
+        if (FMLCommonHandler.instance().getSide().isClient()) {
+            ModEntities.registerRenders();
+        }
     }
 
     /**

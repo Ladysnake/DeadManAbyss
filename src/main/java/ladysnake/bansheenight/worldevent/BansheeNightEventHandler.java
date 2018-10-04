@@ -4,13 +4,13 @@ import ladylib.compat.EnhancedBusSubscriber;
 import ladysnake.bansheenight.BansheeNightConfig;
 import ladysnake.bansheenight.api.event.BansheeNightHandler;
 import ladysnake.bansheenight.capability.CapabilityBansheeNight;
-import ladysnake.bansheenight.entity.EntityBanshee;
-import ladysnake.bansheenight.network.BansheeNightMessage;
-import ladysnake.bansheenight.network.PacketHandler;
+import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -42,12 +42,17 @@ public class BansheeNightEventHandler {
     }
 
     @SubscribeEvent
-    public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+    public void onWorldLoad(WorldEvent.Load event) {
+        if (!event.getWorld().isRemote) {
+            event.getWorld().addEventListener(new BansheeWorldListener((WorldServer) event.getWorld()));
+        }
+    }
+
+    @SubscribeEvent
+    public void onLivingSpawnCheckSpawn(LivingSpawnEvent.CheckSpawn event) {
         BansheeNightHandler cap = event.getWorld().getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
         if (cap != null) {
-            if (event.getEntity() instanceof EntityPlayerMP) {
-                PacketHandler.NET.sendTo(new BansheeNightMessage(cap.isBansheeNightOccurring()), (EntityPlayerMP) event.getEntity());
-            } else if (!(event.getEntity() instanceof EntityBanshee) && cap.isBansheeNightOccurring()) {
+            if (cap.isBansheeNightOccurring() && !(event.getEntity().hasCapability(CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN, null))) {
                 event.setCanceled(true);
             }
         }
