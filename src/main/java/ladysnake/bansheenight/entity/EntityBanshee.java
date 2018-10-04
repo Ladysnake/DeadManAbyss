@@ -4,6 +4,8 @@ import ladysnake.bansheenight.api.event.BansheeNightHandler;
 import ladysnake.bansheenight.capability.CapabilityBansheeNight;
 import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.*;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -20,9 +22,36 @@ public class EntityBanshee extends EntityMob {
     // TODO make an AI that can use this information
     // TODO make the sounds' weight fade over time, and remove them when it gets to 0 -- pyrofab
     private List<SoundLocation> soundsHeard = new ArrayList<>();
+    private static final DataParameter<Boolean> BLOODY = EntityDataManager.createKey(EntityBanshee.class, DataSerializers.BOOLEAN);
 
     public EntityBanshee(World worldIn) {
         super(worldIn);
+    }
+
+    @Override
+    protected void entityInit() {
+        super.entityInit();
+        this.dataManager.register(BLOODY, false);
+    }
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound compound) {
+        super.writeEntityToNBT(compound);
+        if(this.isBloody()) compound.setBoolean("Bloody", true);
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+        if(compound.getBoolean("Bloody")) this.setBloody(true);
+    }
+
+    public void setBloody(boolean bloody) {
+        this.dataManager.set(BLOODY, bloody);
+    }
+
+    public boolean isBloody() {
+        return this.dataManager.get(BLOODY);
     }
 
     @Override
