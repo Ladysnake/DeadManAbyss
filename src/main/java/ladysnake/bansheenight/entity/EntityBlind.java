@@ -48,17 +48,15 @@ public class EntityBlind extends EntityMob {
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
         super.writeEntityToNBT(compound);
-        if(this.isChild()) {
-            compound.setBoolean("IsBaby", true);
-        }
+        if(this.isChild()) compound.setBoolean("IsBaby", true);
+        if(this.isArmsRaised()) compound.setBoolean("ArmsRaised", true);
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
-        if(compound.getBoolean("IsBaby")) {
-            this.setChild(true);
-        }
+        if(compound.getBoolean("IsBaby")) this.setChild(true);
+        if(compound.getBoolean("ArmsRaised")) this.setArmsRaised(true);
     }
 
     @Nullable
@@ -108,6 +106,8 @@ public class EntityBlind extends EntityMob {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.LUCK);
+
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(15.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.23000001217232513D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.5D);
