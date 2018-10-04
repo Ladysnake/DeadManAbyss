@@ -3,14 +3,9 @@ package ladysnake.bansheenight;
 import ladysnake.bansheenight.command.CommandBansheeNight;
 import ladysnake.bansheenight.init.ModEntities;
 import ladysnake.bansheenight.network.PacketHandler;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.minecraftforge.fml.common.event.*;
+import org.apache.logging.log4j.*;
 
 @Mod(
         modid = BansheeNight.MOD_ID,
@@ -28,13 +23,20 @@ public class BansheeNight {
     public static final BansheeNight INSTANCE = new BansheeNight();
     public static final Logger LOGGER = LogManager.getLogger(MOD_NAME);
 
+    @Mod.InstanceFactory
+    public static BansheeNight instance() {
+        return INSTANCE;
+    }
+
     /**
      * This is the first initialization event. Register tile entities here.
      * The registry events below will have fired prior to entry to this method.
      */
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-
+        if(event.getSide().isClient()) {
+            ModEntities.registerRenders();
+        }
     }
 
     /**
@@ -43,9 +45,6 @@ public class BansheeNight {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         PacketHandler.initPackets();
-        if (FMLCommonHandler.instance().getSide().isClient()) {
-            ModEntities.registerRenders();
-        }
     }
 
     /**
@@ -59,11 +58,6 @@ public class BansheeNight {
     @Mod.EventHandler
     public void serverStart(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandBansheeNight());
-    }
-
-    @Mod.InstanceFactory
-    public static BansheeNight instance() {
-        return INSTANCE;
     }
 
 }
