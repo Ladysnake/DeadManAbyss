@@ -3,7 +3,12 @@ package ladysnake.bansheenight.entity;
 import ladysnake.bansheenight.api.event.BansheeNightHandler;
 import ladysnake.bansheenight.capability.CapabilityBansheeNight;
 import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -44,12 +49,25 @@ public class EntityBanshee extends EntityMob {
         if(compound.getBoolean("Bloody")) this.setBloody(true);
     }
 
+    @Override
+    public void onKillEntity(EntityLivingBase entityLivingIn) {
+        super.onKillEntity(entityLivingIn);
+        this.heal(entityLivingIn.getMaxHealth() / 2);
+        this.setBloody(true);
+    }
+
     public void setBloody(boolean bloody) {
         this.dataManager.set(BLOODY, bloody);
     }
 
     public boolean isBloody() {
         return this.dataManager.get(BLOODY);
+    }
+
+    @Override
+    protected void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(60.0D);
     }
 
     @Override
