@@ -5,7 +5,9 @@ import ladysnake.bansheenight.capability.CapabilityBansheeNight;
 import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.*;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -13,14 +15,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class EntityBanshee extends EntityMob {
     // TODO make an AI that can use this information
-    // TODO make the sounds' weight fade over time, and remove them when it gets to 0 -- pyrofab
     private List<SoundLocation> soundsHeard = new ArrayList<>();
     private static final DataParameter<Boolean> BLOODY = EntityDataManager.createKey(EntityBanshee.class, DataSerializers.BOOLEAN);
 
@@ -65,6 +63,22 @@ public class EntityBanshee extends EntityMob {
         return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN || super.hasCapability(capability, facing);
     }
 
+    @Override
+    public void onLivingUpdate() {
+        super.onLivingUpdate();
+        // Make the banshee forget sounds after some time
+        // Single sounds are forgotten after 5 seconds on average
+        if (world.rand.nextInt(100) == 0) {
+            for (Iterator<SoundLocation> iterator = soundsHeard.iterator(); iterator.hasNext(); ) {
+                SoundLocation loc = iterator.next();
+                loc.fade(0.1f);
+                if (loc.getWeight() <= 0) {
+                    iterator.remove();
+                }
+            }
+        }
+    }
+
     public void onSoundHeard(SoundEvent soundIn, SoundCategory category, double x, double y, double z, float volume) {
         if (category != SoundCategory.AMBIENT) {
             SoundLocation loc = new SoundLocation(x, y, z, volume);
@@ -104,6 +118,14 @@ public class EntityBanshee extends EntityMob {
             this.y = ((this.y * this.weight) + (that.y * that.weight)) / (this.weight + that.weight);
             this.z = ((this.z * this.weight) + (that.z * that.weight)) / (this.weight + that.weight);
             this.weight += that.weight;
+        }
+
+        public float getWeight() {
+            return this.weight;
+        }
+
+        public void fade(float v) {
+            this.weight -= v;
         }
     }
 }
