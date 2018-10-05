@@ -1,20 +1,28 @@
 package ladysnake.bansheenight.entity;
 
-import net.minecraft.entity.*;
+import ladysnake.bansheenight.BansheeNight;
+import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
-import net.minecraft.entity.ai.attributes.*;
-import net.minecraft.entity.monster.*;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.*;
-import net.minecraft.world.*;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class EntityBlind extends EntityMob {
 
+    private static final ResourceLocation LOOT = new ResourceLocation(BansheeNight.MOD_ID, "entities/blind");
     private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(EntityBlind.class, DataSerializers.BOOLEAN);
     private static final UUID BABY_SPEED_BOOST_ID = UUID.fromString("54b625b3-e51b-4612-9d14-d7d1b5f55002");
     private static final AttributeModifier BABY_SPEED_BOOST = new AttributeModifier(BABY_SPEED_BOOST_ID, "Baby speed boost", 0.5D, 1);
@@ -129,7 +137,7 @@ public class EntityBlind extends EntityMob {
 
     @Nullable
     @Override
-    protected Item getDropItem() {
-        return Items.LEATHER;
+    protected ResourceLocation getLootTable() {
+        return LOOT;
     }
 }
