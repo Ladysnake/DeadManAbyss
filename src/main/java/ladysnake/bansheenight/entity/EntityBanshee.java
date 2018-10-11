@@ -32,6 +32,7 @@ public class EntityBanshee extends EntityMob {
 
     public EntityBanshee(World worldIn) {
         super(worldIn);
+        this.setSize(2f, 3f);
     }
 
     @Override
