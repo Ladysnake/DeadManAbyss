@@ -122,9 +122,6 @@ public class EntityBlind extends EntityMob {
         this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(14.0D);
         this.getEntityAttribute(SharedMonsterAttributes.LUCK).setBaseValue(-1024.0D);
-
-        //TODO should they spawn reinforcements? ^Up
-        //this.getAttributeMap().registerAttribute(EntityZombie.SPAWN_REINFORCEMENTS_CHANCE).setBaseValue(this.rand.nextDouble() * net.minecraftforge.common.ForgeModContainer.zombieSummonBaseChance);
     }
 
     public boolean isArmsRaised() {
