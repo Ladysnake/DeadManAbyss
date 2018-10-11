@@ -158,11 +158,10 @@ task apiJar(type: Jar) {
     onlyIf {
         project.hasProperty("api_package")
     }
-    from sourceSets.api.allJava
-    include "${findProperty("api_package")}/**"
-    from("LICENSE") {
-        include "*"
+    from (sourceSets.main.allJava) {
+        include "${findProperty("api_package")}/**"
     }
+    from "LICENSE"
     manifest.mainAttributes(
             "Built-On-Java": "${System.getProperty('java.vm.version')} + (${System.getProperty('java.vm.vendor')})",
             "Implementation-Title": "${project.name}-api",
@@ -176,9 +175,7 @@ task apiJar(type: Jar) {
 // Javadoc jar
 task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
-    from("LICENSE") {
-        include "*"
-    }
+    from "LICENSE"
     manifest.mainAttributes(
             "Built-On-Java": "${System.getProperty('java.vm.version')} + (${System.getProperty('java.vm.vendor')})",
             "Implementation-Title": project.name + '-javadoc',
@@ -190,7 +187,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 jar {
-    from sourceSets.api.output
     from "LICENSE"
     from(configurations.contained.files) {
         include '*'
