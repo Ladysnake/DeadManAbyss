@@ -5,7 +5,37 @@ import net.minecraftforge.common.config.Config;
 @Config(modid = BansheeNight.MOD_ID)
 public class BansheeNightConfig {
 
+    @Config.Name("Minimum Ticks Between Nights")
+    @Config.Comment("The minimum time between two (naturally occuring) banshee nights, in ticks")
     public static int minTicksBetweenNights = 96_000;
-    @Config.Comment("The probability of a banshee night starting at any given sunset (1 in N)")
+
+    @Config.RangeInt(min = 1, max = 1_000_000)
+    @Config.Name("Banshee Night Probability")
+    @Config.Comment("The probability of a banshee night starting at any given trigger")
     public static int bansheeNightProbability = 100;
+
+    @Config.RequiresMcRestart
+    @Config.Name("Dimension Whitelist")
+    @Config.Comment("The whitelist for dimensions in which the event can occur")
+    public static int[] dimWhiteList = new int[]{0};
+
+    @Config.Name("Trigger Config")
+    @Config.Comment("Configure the specific triggers separately")
+    public static final Triggers triggers = new Triggers();
+
+    public static class Triggers {
+
+        @Config.Name("On Return From Portal")
+        @Config.Comment("Trigger a banshee night when returning from another dimension")
+        public boolean portal = true;
+
+        //FIXME implement! ^Up
+        @Config.Name("On Sunset")
+        @Config.Comment("Trigger a banshee night when the sun sets")
+        public boolean sunset = true;
+
+        @Config.Name("On Lotus Ritual")
+        @Config.Comment({"Trigger a banshee night when tossing a black lotus into water around midnight during a new moon", "(this does NOT respect the probability)"})
+        public boolean lotusRitual = true;
+    }
 }

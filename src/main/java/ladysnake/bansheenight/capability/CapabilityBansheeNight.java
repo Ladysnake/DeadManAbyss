@@ -1,21 +1,15 @@
 package ladysnake.bansheenight.capability;
 
-import ladylib.capability.AutoCapability;
-import ladylib.capability.SimpleProvider;
+import ladylib.capability.*;
 import ladylib.misc.CalledThroughReflection;
-import ladysnake.bansheenight.BansheeNight;
-import ladysnake.bansheenight.api.event.BansheeNightEvent;
-import ladysnake.bansheenight.api.event.BansheeNightHandler;
-import ladysnake.bansheenight.network.BansheeNightMessage;
-import ladysnake.bansheenight.network.PacketHandler;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import ladysnake.bansheenight.*;
+import ladysnake.bansheenight.api.event.*;
+import ladysnake.bansheenight.network.*;
+import net.minecraft.entity.player.*;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.*;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -87,6 +81,12 @@ public class CapabilityBansheeNight implements BansheeNightHandler {
 
     @SubscribeEvent
     public static void onAttachCapabilities(AttachCapabilitiesEvent<World> event) {
-        event.addCapability(BANSHEE_NIGHT, new SimpleProvider<>(CAPABILITY_BANSHEE_NIGHT, new CapabilityBansheeNight(event.getObject())));
+        int dimension = event.getObject().provider.getDimension();
+        for(int dim : BansheeNightConfig.dimWhiteList) {
+            if(dim == dimension) {
+                event.addCapability(BANSHEE_NIGHT, new SimpleProvider<>(CAPABILITY_BANSHEE_NIGHT, new CapabilityBansheeNight(event.getObject())));
+                break;
+            }
+        }
     }
 }

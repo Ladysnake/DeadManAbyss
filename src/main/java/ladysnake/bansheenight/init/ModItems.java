@@ -2,6 +2,7 @@ package ladysnake.bansheenight.init;
 
 import ladylib.registration.AutoRegister;
 import ladysnake.bansheenight.BansheeNight;
+import ladysnake.bansheenight.item.ItemLotus;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -10,5 +11,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @GameRegistry.ObjectHolder(BansheeNight.MOD_ID)
 public class ModItems {
     public static final Item BLIND_LEATHER = new Item();
+    public static final Item BLACK_CRYSTAL_LOTUS = new ItemLotus();
 
 }
