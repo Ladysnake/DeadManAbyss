@@ -1,6 +1,7 @@
 package ladysnake.bansheenight.entity;
 
 import ladysnake.bansheenight.BansheeNight;
+import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -13,9 +14,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -51,6 +54,11 @@ public class EntityBlind extends EntityMob {
         super.entityInit();
         this.dataManager.register(IS_CHILD, false);
         this.dataManager.register(ARMS_RAISED, false);
+    }
+
+    @Override
+    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN || super.hasCapability(capability, facing);
     }
 
     @Override
