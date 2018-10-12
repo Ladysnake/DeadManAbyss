@@ -35,7 +35,7 @@ public class BansheeNightConfig {
         public boolean sunset = true;
 
         @Config.Name("On Lotus Ritual")
-        @Config.Comment({"Trigger a banshee night when tossing a black lotus into water around midnight during a new moon", "(this does NOT respect the probability)"})
+        @Config.Comment({"Trigger a banshee night when tossing a black lotus into water around midnight", "(this does NOT respect the probability, but the minimum tick cooldown)"})
         public boolean lotusRitual = true;
     }
 }

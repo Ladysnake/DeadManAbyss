@@ -23,7 +23,7 @@ public class BansheeNightEventHandler {
         if(BansheeNightConfig.triggers.portal && !event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayerMP) { //Entity#world is NOT the target world, but it's fine for the side check
             WorldServer world = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(event.getDimension());
             BansheeNightHandler cap = world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
-            if(cap != null && cap.getTicksSinceLastNight() > BansheeNightConfig.minTicksBetweenNights && isPlayerReady((EntityPlayerMP) event.getEntity()) && world.rand.nextDouble() < BansheeNightConfig.bansheeNightProbability) {
+            if(cap != null && cap.getTicksSinceLastNight() >= BansheeNightConfig.minTicksBetweenNights && isPlayerReady((EntityPlayerMP) event.getEntity()) && world.rand.nextDouble() < BansheeNightConfig.bansheeNightProbability) {
                 cap.startBansheeNight(); //TODO randomize it a bit more? ^Up
             }
         }

@@ -12,11 +12,11 @@ public class ItemLotus extends Item {
 
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
-        if (!entityItem.world.isRemote && entityItem.getAge() > 100 && BansheeNightConfig.triggers.lotusRitual && entityItem.isInWater() && entityItem.world.provider.getCurrentMoonPhaseFactor() == 0.0F) {
+        if (!entityItem.world.isRemote && entityItem.getAge() > 100 && BansheeNightConfig.triggers.lotusRitual && entityItem.isInWater()) {
             BansheeNightHandler cap = entityItem.world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
-            if(cap != null && !cap.isBansheeNightOccurring()) {
+            if(cap != null && cap.getTicksSinceLastNight() >= BansheeNightConfig.minTicksBetweenNights) {
                 float skyAngle = entityItem.world.getCelestialAngle(1.0F);
-                if(skyAngle > 0.49F && skyAngle < 0.51F) {
+                if(skyAngle > 0.475F && skyAngle < 0.525F) {
                     cap.startBansheeNight();
                     entityItem.setDead();
 
