@@ -1,6 +1,9 @@
 #PARSE_ESCAPES
 
+bansheenight.command.usage=/banshee_night <on|off> [dimension]
 bansheenight.command.no_cap=The banshee night capability is not attached to the current world
+bansheenight.command.status.on=Banshee night is ON!
+bansheenight.command.status.off=Banshee night is OFF!
 
 entity.blind.name=Blind
 entity.banshee.name=Banshee

@@ -2,14 +2,14 @@ package ladysnake.bansheenight.command;
 
 import ladysnake.bansheenight.api.event.BansheeNightHandler;
 import ladysnake.bansheenight.capability.CapabilityBansheeNight;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
+import net.minecraft.command.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CommandBansheeNight extends CommandBase {
     @Override
@@ -19,12 +19,19 @@ public class CommandBansheeNight extends CommandBase {
 
     @Override
     public String getUsage(ICommandSender sender) {
-        return "command";
+        return "bansheenight.command.usage";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Collections.singletonList("bn");
     }
 
     @Override
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
-        return getListOfStringsMatchingLastWord(args, "on", "off");
+        if(args.length == 1) return getListOfStringsMatchingLastWord(args, "on", "off");
+        else if(args.length == 2) return getListOfStringsMatchingLastWord(args, Arrays.stream(server.worlds).filter(w -> w.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null) != null).map(w -> w.provider.getDimension()).collect(Collectors.toList()));
+        else return Collections.emptyList();
     }
 
     @Override
@@ -37,6 +44,7 @@ public class CommandBansheeNight extends CommandBase {
                 } else if (args[0].equals("off")) {
                     cap.stopBansheeNight();
                 }
+                sender.sendMessage(new TextComponentTranslation("bansheenight.command.status." + (cap.isBansheeNightOccurring() ? "on" : "off")));
             } else {
                 throw new CommandException("bansheenight.command.no_cap");
             }
