@@ -12,17 +12,14 @@ public class ItemLotus extends Item {
 
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
-        if (!entityItem.world.isRemote && entityItem.getAge() > 100 && BansheeNightConfig.triggers.lotusRitual && entityItem.isInWater()) {
+        if(!entityItem.world.isRemote && entityItem.getAge() > 100 && BansheeNightConfig.triggers.lotusRitual && entityItem.isInWater()) {
             BansheeNightHandler cap = entityItem.world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
             if(cap != null && cap.getTicksSinceLastNight() >= BansheeNightConfig.minTicksBetweenNights) {
-                float skyAngle = entityItem.world.getCelestialAngle(1.0F);
-                if(skyAngle > 0.475F && skyAngle < 0.525F) {
-                    cap.startBansheeNight();
-                    entityItem.setDead();
+                cap.startBansheeNight();
+                entityItem.setDead();
 
-                    //TODO adjust particles ^Up
-                    ((WorldServer) entityItem.world).spawnParticle(EnumParticleTypes.END_ROD, entityItem.posX, entityItem.posY, entityItem.posZ, 20, 0.0D, 0.0D, 0.0D, 0.005D);
-                }
+                //TODO adjust particles ^Up
+                ((WorldServer) entityItem.world).spawnParticle(EnumParticleTypes.END_ROD, entityItem.posX, entityItem.posY, entityItem.posZ, 20, 0.0D, 0.0D, 0.0D, 0.005D);
             }
         }
         return false;

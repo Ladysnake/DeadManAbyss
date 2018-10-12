@@ -4,7 +4,7 @@ import ladylib.compat.EnhancedBusSubscriber;
 import ladysnake.bansheenight.*;
 import ladysnake.bansheenight.api.event.BansheeNightHandler;
 import ladysnake.bansheenight.capability.*;
-import net.minecraft.entity.player.*;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;

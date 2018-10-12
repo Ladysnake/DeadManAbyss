@@ -5,6 +5,7 @@ import ladylib.misc.CalledThroughReflection;
 import ladysnake.bansheenight.*;
 import ladysnake.bansheenight.api.event.*;
 import ladysnake.bansheenight.network.*;
+import ladysnake.bansheenight.worldevent.SunsetHandler;
 import net.minecraft.entity.player.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.*;
@@ -42,6 +43,7 @@ public class CapabilityBansheeNight implements BansheeNightHandler {
         if (!MinecraftForge.EVENT_BUS.post(new BansheeNightEvent.Start(owner))) {
             if (owner instanceof WorldServer) {
                 sendToWorld(true);
+                SunsetHandler.subscribe(owner.provider.getDimension());
             }
             this.ticksSinceLastNight = -1;
         }
