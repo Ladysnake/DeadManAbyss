@@ -6,6 +6,7 @@ import net.minecraft.command.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.*;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -37,15 +38,22 @@ public class CommandBansheeNight extends CommandBase {
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
         if (args.length > 0) {
-            BansheeNightHandler cap = sender.getEntityWorld().getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
+            boolean flag;
+            if (args[0].equals("on")) {
+                flag = true;
+            } else if (args[0].equals("off")) {
+                flag = false;
+            }
+            else throw new CommandException(getUsage(sender));
+
+            World world = args.length == 2 ? server.getWorld(parseInt(args[1])) : sender.getEntityWorld();
+            BansheeNightHandler cap = world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
             if (cap != null) {
-                if (args[0].equals("on")) {
-                    cap.startBansheeNight();
-                } else if (args[0].equals("off")) {
-                    cap.stopBansheeNight();
-                }
+                if(flag) cap.startBansheeNight();
+                else cap.stopBansheeNight();
                 sender.sendMessage(new TextComponentTranslation("bansheenight.command.status." + (cap.isBansheeNightOccurring() ? "on" : "off")));
-            } else {
+            }
+            else {
                 throw new CommandException("bansheenight.command.no_cap");
             }
         }
