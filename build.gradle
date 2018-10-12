@@ -88,13 +88,16 @@ configurations {
     contained {
         transitive = false
     }
-    compile.extendsFrom contained
+    //compile.extendsFrom contained
 }
 
 dependencies {
-    //compile "com.github.Ladysnake:Ladylib:${ll_version}"
+
+    deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}"
+
+    compile "com.github.Ladysnake:Ladylib:${ll_version}"
     contained "com.github.Ladysnake:Ladylib:${ll_version}"
-    //compile "com.github.GlassPane:GlassPane:${gp_version}"
+    compile "com.github.GlassPane:GlassPane:${gp_version}"
     contained "com.github.GlassPane:GlassPane:${gp_version}"
 //    compile "com.github.Ladysnake:Dissolution:${dis_version}:api"
 //    contained "com.github.Ladysnake:Dissolution:${dis_version}:api"
@@ -125,7 +128,8 @@ minecraft {
     def fingerPrintKey = project.hasProperty('public_key') ? findProperty('public_key').replace(":", "").toLowerCase(Locale.ROOT) : "undefined"
     replace "@FINGERPRINTKEY@", fingerPrintKey
     replace "@UPDATE_JSON@", project.update_json
-//    replace "required-after:forge", "required-after:forge@[" + project.forge_version + ",)"
+    replace "required-after:forge", "required-after:forge@[" + project.forge_version + ",)"
+    replace "after:jei", "after:jei@[4.12,)" //TODO set jei major version number in properties file? ^Up
     replace "required-after:glasspane", "required-after:glasspane@[${project.gp_version},)"
     replace "required-after:ladylib", "required-after:ladylib@[${project.ll_version},)"
     replaceIn "${project.reference_class}"

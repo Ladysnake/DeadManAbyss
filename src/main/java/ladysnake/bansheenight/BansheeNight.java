@@ -12,7 +12,10 @@ import org.apache.logging.log4j.*;
         name = BansheeNight.MOD_NAME,
         version = BansheeNight.VERSION,
         certificateFingerprint = "@FINGERPRINTKEY@",
-        dependencies = "required-after:forge@[14.23.3.2669,);required-after:glasspane;required-after:ladylib"
+        dependencies = "required-after:forge;" +
+                       "required-after:glasspane;" +
+                       "required-after:ladylib;" +
+                       "after:jei"
 )
 public class BansheeNight {
 

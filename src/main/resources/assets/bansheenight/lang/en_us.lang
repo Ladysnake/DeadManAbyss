@@ -4,3 +4,6 @@ bansheenight.command.no_cap=The banshee night capability is not attached to the 
 
 entity.blind.name=Blind
 entity.banshee.name=Banshee
+
+#TODO add better description!
+jei.description.bansheenight.lotus_ritual=at new moon, toss a lotus into water around midnight\ndoes not need to be perfect, you have a small time window
