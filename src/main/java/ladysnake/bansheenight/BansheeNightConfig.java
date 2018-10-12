@@ -9,10 +9,10 @@ public class BansheeNightConfig {
     @Config.Comment("The minimum time between two (naturally occuring) banshee nights, in ticks")
     public static int minTicksBetweenNights = 96_000;
 
-    @Config.RangeInt(min = 1, max = 1_000_000)
+    @Config.RangeDouble(min = 0.0D, max = 1.0D)
     @Config.Name("Banshee Night Probability")
     @Config.Comment("The probability of a banshee night starting at any given trigger")
-    public static int bansheeNightProbability = 100;
+    public static double bansheeNightProbability = 0.01D;
 
     @Config.RequiresMcRestart
     @Config.Name("Dimension Whitelist")
