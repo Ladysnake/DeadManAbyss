@@ -5,10 +5,10 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Iterator;
 
 public class EntityAIBansheeApproachSound extends EntityAIBase {
+    public static final int MIN_SEEK_DISTANCE_SQ = 64;
     private final EntityBanshee creature;
     private double movePosX;
     private double movePosY;
@@ -25,23 +25,37 @@ public class EntityAIBansheeApproachSound extends EntityAIBase {
      * Returns whether the EntityAIBase should begin execution.
      */
     public boolean shouldExecute() {
-        if (this.creature.isWithinHomeDistanceCurrentPosition()) {
+        Iterator<EntityBanshee.SoundLocation> iterator = this.creature.getSoundsHeard().iterator();
+        if (!iterator.hasNext()) {
             return false;
-        } else {
-            EntityBanshee.SoundLocation loc = Collections.max(this.creature.getSoundsHeard(),
-                    Comparator.comparingDouble(EntityBanshee.SoundLocation::getWeight)
-                            .thenComparingDouble(sl -> this.creature.getDistanceSq(sl.getX(), sl.getY(), sl.getZ())));
-            Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.creature, 5, 5, new Vec3d(loc.getX(), loc.getY(), loc.getZ()));
-
-            if (vec3d == null) {
-                return false;
-            } else {
-                this.movePosX = vec3d.x;
-                this.movePosY = vec3d.y;
-                this.movePosZ = vec3d.z;
-                return true;
+        }
+        EntityBanshee.SoundLocation loc = iterator.next();
+        double locDistanceSq = this.creature.getDistanceSq(loc.getX(), loc.getY(), loc.getZ());
+        while (iterator.hasNext()) {
+            EntityBanshee.SoundLocation next = iterator.next();
+            double distanceSq = this.creature.getDistanceSq(next.getX(), next.getY(), next.getZ());
+            // don't seek any sound closer than 8 blocks + max by weight then min distance
+            if (distanceSq > MIN_SEEK_DISTANCE_SQ && (locDistanceSq < MIN_SEEK_DISTANCE_SQ ||
+                    (loc.getWeight() < next.getWeight() ||
+                    (loc.getWeight() == next.getWeight() && locDistanceSq > distanceSq)))) {
+                loc = next;
+                locDistanceSq = distanceSq;
             }
         }
+
+        // All sounds heard are too close
+        if (locDistanceSq < MIN_SEEK_DISTANCE_SQ) {
+            return false;
+        }
+        Vec3d vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.creature, 5, 5, new Vec3d(loc.getX(), loc.getY(), loc.getZ()));
+
+        if (vec3d != null) {
+            this.movePosX = vec3d.x;
+            this.movePosY = vec3d.y;
+            this.movePosZ = vec3d.z;
+            return true;
+        }
+        return false;
     }
 
     /**

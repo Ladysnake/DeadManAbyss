@@ -5,8 +5,22 @@ import ladysnake.bansheenight.capability.*;
 import ladysnake.bansheenight.entity.ai.EntityAIBansheeApproachSound;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
+import ladysnake.bansheenight.entity.ai.EntityAIBansheeNearestAttackableTarget;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.network.datasync.*;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -23,9 +37,11 @@ public class EntityBanshee extends EntityMob {
     public static final int BASE_TRACKED_DISTANCE_FROM_SOUND_SQ = 9;
     private final BansheeNightSpawnable CAPABILITY_SPAWN = CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.getDefaultInstance();
 
+    private List<SoundLocation> soundsHeard = new ArrayList<>();
+
     public EntityBanshee(World worldIn) {
         super(worldIn);
-        this.setSize(2f, 3f);
+        this.setSize(1.5f, 3.6f);
     }
 
     @Override
@@ -39,7 +55,8 @@ public class EntityBanshee extends EntityMob {
         this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.5D, true));
         this.tasks.addTask(5, new EntityAIBansheeApproachSound(this, 0.7));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, true));
+        this.targetTasks.addTask(2, new EntityAIBansheeNearestAttackableTarget<>(this, EntityPlayer.class, true));
+        this.targetTasks.addTask(6, new EntityAIBansheeNearestAttackableTarget<>(this, EntityLivingBase.class, true));
     }
 
     @Override
@@ -86,6 +103,12 @@ public class EntityBanshee extends EntityMob {
     public boolean getCanSpawnHere() {
         BansheeNightHandler cap = this.world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
         return cap != null && cap.isBansheeNightOccurring() && super.getCanSpawnHere();
+    }
+
+    @Override
+    protected boolean isValidLightLevel() {
+        BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        return this.world.getLightFromNeighbors(blockpos) <= this.world.rand.nextInt(10);
     }
 
     @Override
