@@ -12,7 +12,7 @@ public class ItemLotus extends Item {
 
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
-        if(!entityItem.world.isRemote && entityItem.getAge() > 100 && BansheeNightConfig.triggers.lotusRitual && entityItem.isInWater()) {
+        if(!entityItem.world.isRemote && entityItem.getAge() > 100 && BansheeNightConfig.triggers.lotusRitual && entityItem.isInWater() && entityItem.getEntityData().getBoolean("Trigger")) { //Trigger: see BansheeNightEventHandler#onPLayerDropLotus()
             BansheeNightHandler cap = entityItem.world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
             if(cap != null && cap.getTicksSinceLastNight() >= BansheeNightConfig.minTicksBetweenNights) {
                 cap.startBansheeNight();

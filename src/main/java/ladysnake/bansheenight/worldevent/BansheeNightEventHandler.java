@@ -4,10 +4,13 @@ import ladylib.compat.EnhancedBusSubscriber;
 import ladysnake.bansheenight.*;
 import ladysnake.bansheenight.api.event.BansheeNightHandler;
 import ladysnake.bansheenight.capability.*;
+import ladysnake.bansheenight.item.ItemLotus;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -57,5 +60,18 @@ public class BansheeNightEventHandler {
         if(cap != null && cap.isBansheeNightOccurring() && !(event.getEntity().hasCapability(CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN, null))) {
             event.setResult(Event.Result.DENY);
         }
+    }
+
+    @SubscribeEvent
+    public void onPLayerDropLotus(ItemTossEvent event) {
+        if(!event.getPlayer().world.isRemote) {
+            EntityItem item = event.getEntityItem();
+            if(item.getItem().getItem() instanceof ItemLotus) {
+                if(isPlayerReady((EntityPlayerMP) event.getPlayer())) { //prevent automation of the event
+                    item.getEntityData().setBoolean("Trigger", true);
+                }
+            }
+        }
+
     }
 }
