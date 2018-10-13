@@ -93,12 +93,13 @@ configurations {
 
 dependencies {
 
-    deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}"
-
     compile "com.github.Ladysnake:Ladylib:${ll_version}"
     contained "com.github.Ladysnake:Ladylib:${ll_version}"
     compile "com.github.GlassPane:GlassPane:${gp_version}"
     contained "com.github.GlassPane:GlassPane:${gp_version}"
+
+    //mod compat
+    deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}"
 //    compile "com.github.Ladysnake:Dissolution:${dis_version}:api"
 //    contained "com.github.Ladysnake:Dissolution:${dis_version}:api"
 //    runtimeOnly "com.github.Ladysnake:Dissolution:${dis_version}"

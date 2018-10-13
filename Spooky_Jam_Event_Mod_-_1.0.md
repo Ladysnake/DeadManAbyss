@@ -3,9 +3,9 @@
 ### Main properties:
 
 - Two ways the event can start:
-  - Randomly after the player has been to the nether (or another condition? I dunno)
-  - [To be decided] For now, a debug item
-- The event only concerns the overworld; Nether and End stay the same and aren't changed.
+  - Randomly after the player has been to the nether
+  - dropping a black crystal lotus into water
+- The event only concerns the overworld; Nether and End stay the same and aren't changed. (configurable)
 - Normal mobs don't spawn, although they won't burn during the event.
 - Sound system, mobs rely on sound to track the player. The more the player makes sound, the more their radius extend (for the duration of the noise).
 - Shader during the event that makes it so dark areas are pitch black.
