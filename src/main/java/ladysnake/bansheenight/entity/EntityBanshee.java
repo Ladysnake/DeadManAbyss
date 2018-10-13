@@ -1,10 +1,10 @@
 package ladysnake.bansheenight.entity;
 
-import ladysnake.bansheenight.api.event.*;
-import ladysnake.bansheenight.capability.*;
+import ladysnake.bansheenight.api.event.BansheeNightHandler;
+import ladysnake.bansheenight.api.event.BansheeNightSpawnable;
+import ladysnake.bansheenight.capability.CapabilityBansheeNight;
+import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
 import ladysnake.bansheenight.entity.ai.EntityAIBansheeApproachSound;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
 import ladysnake.bansheenight.entity.ai.EntityAIBansheeNearestAttackableTarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,8 +21,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.network.datasync.*;
-import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
@@ -30,13 +28,10 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class EntityBanshee extends EntityMob {
-
-    // TODO make an AI that can use this information
-    private List<SoundLocation> soundsHeard = new ArrayList<>();
     private static final DataParameter<Boolean> BLOODY = EntityDataManager.createKey(EntityBanshee.class, DataSerializers.BOOLEAN);
     public static final int BASE_TRACKED_DISTANCE_FROM_SOUND_SQ = 9;
-    private final BansheeNightSpawnable CAPABILITY_SPAWN = CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.getDefaultInstance();
 
+    private final BansheeNightSpawnable CAPABILITY_SPAWN = CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.getDefaultInstance();
     private List<SoundLocation> soundsHeard = new ArrayList<>();
 
     public EntityBanshee(World worldIn) {
