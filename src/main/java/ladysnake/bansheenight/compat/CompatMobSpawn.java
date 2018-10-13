@@ -1,16 +1,19 @@
 package ladysnake.bansheenight.compat;
 
 import bl4ckscor3.mod.scarecrows.entity.EntityScarecrow;
-import com.github.upcraftlp.glasspane.api.capability.CapabilityProviderSimple;
 import gigaherz.eyes.entity.EntityEyes;
 import ladysnake.bansheenight.BansheeNight;
+import ladysnake.bansheenight.api.event.BansheeNightSpawnable;
 import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
 import lykrast.harvestersnight.common.EntityHarvester;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
+import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import javax.annotation.*;
 
 public class CompatMobSpawn {
 
@@ -39,6 +42,19 @@ public class CompatMobSpawn {
             if(event.getObject() instanceof EntityScarecrow) flag = true;
         }
 
-        if(flag) event.addCapability(SPAWN_CAPABILITY, new CapabilityProviderSimple<>(CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN));
+        if(flag) event.addCapability(SPAWN_CAPABILITY, new ICapabilityProvider() {
+
+            BansheeNightSpawnable instance = CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.getDefaultInstance();
+            @Override
+            public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+                return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN;
+            }
+
+            @Nullable
+            @Override
+            public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+                return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN ? CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.cast(instance) : null;
+            }
+        });
     }
 }
