@@ -57,7 +57,7 @@ public class BansheeNightEventHandler {
     @SubscribeEvent
     public void onLivingSpawnCheckSpawn(LivingSpawnEvent.CheckSpawn event) {
         BansheeNightHandler cap = event.getWorld().getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
-        if(cap != null && cap.isBansheeNightOccurring() && !(event.getEntity().hasCapability(CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN, null))) {
+        if(cap != null && cap.isBansheeNightOccurring() && event.getEntity().getCapability(CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN, null) == null) {
             event.setResult(Event.Result.DENY);
         }
     }

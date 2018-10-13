@@ -1,23 +1,14 @@
 package ladysnake.bansheenight.entity;
 
-import ladysnake.bansheenight.api.event.BansheeNightHandler;
-import ladysnake.bansheenight.capability.CapabilityBansheeNight;
-import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
+import ladysnake.bansheenight.api.event.*;
+import ladysnake.bansheenight.capability.*;
 import ladysnake.bansheenight.entity.ai.EntityAIBansheeApproachSound;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.network.datasync.*;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
@@ -25,10 +16,12 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class EntityBanshee extends EntityMob {
+
     // TODO make an AI that can use this information
     private List<SoundLocation> soundsHeard = new ArrayList<>();
     private static final DataParameter<Boolean> BLOODY = EntityDataManager.createKey(EntityBanshee.class, DataSerializers.BOOLEAN);
     public static final int BASE_TRACKED_DISTANCE_FROM_SOUND_SQ = 9;
+    private final BansheeNightSpawnable CAPABILITY_SPAWN = CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.getDefaultInstance();
 
     public EntityBanshee(World worldIn) {
         super(worldIn);
@@ -108,6 +101,12 @@ public class EntityBanshee extends EntityMob {
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN || super.hasCapability(capability, facing);
+    }
+
+    @Nullable
+    @Override
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+        return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN ? CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.cast(CAPABILITY_SPAWN) : super.getCapability(capability, facing);
     }
 
     @Override
