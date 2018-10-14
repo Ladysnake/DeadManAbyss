@@ -19,11 +19,7 @@ public class BansheeNightPacket implements IMessageHandler<BansheeNightMessage, 
             if (world != null) {
                 BansheeNightHandler cap = world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
                 if (cap != null) {
-                    if (message.occurring) {
-                        cap.startBansheeNight();
-                    } else {
-                        cap.stopBansheeNight();
-                    }
+                    cap.setTicksSinceLastNight(message.ticks);
                 }
             }
         }

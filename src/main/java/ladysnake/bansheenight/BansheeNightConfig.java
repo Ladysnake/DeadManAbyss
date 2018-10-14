@@ -17,11 +17,19 @@ public class BansheeNightConfig {
     @Config.RequiresMcRestart
     @Config.Name("Dimension Whitelist")
     @Config.Comment("The whitelist for dimensions in which the event can occur")
-    public static int[] dimWhiteList = new int[]{0};
+    public static int[] dimWhiteList = {0};
 
     @Config.Name("Trigger Config")
     @Config.Comment("Configure the specific triggers separately")
     public static final Triggers triggers = new Triggers();
+
+    @Config.Name("Client Config")
+    @Config.Comment("Configure client settings")
+    public static final Client client = new Client();
+
+    public static class Client {
+        public boolean fancyShader = true;
+    }
 
     public static class Triggers {
 

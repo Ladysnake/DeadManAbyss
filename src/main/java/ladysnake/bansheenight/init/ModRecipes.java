@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class ModRecipes {
     @SubscribeEvent
     public static void addMutations(RegisterMutationsEvent event) {
-        event.registerMutation(new ResourceLocation("minecraft:brown_mushroom"), new ResourceLocation("bansheenight:light_bleb"));
-        event.registerMutation(new ResourceLocation("minecraft:red_mushroom"), new ResourceLocation("bansheenight:light_bleb"));
+        event.registerMutation(new ResourceLocation("minecraft:brown_mushroom"), new ResourceLocation("bansheenight:lightbleb"));
+        event.registerMutation(new ResourceLocation("minecraft:red_mushroom"), new ResourceLocation("bansheenight:lightbleb"));
     }
 }

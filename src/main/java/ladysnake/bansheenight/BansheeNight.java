@@ -1,5 +1,7 @@
 package ladysnake.bansheenight;
 
+import ladylib.LadyLib;
+import ladylib.misc.TemplateUtil;
 import ladysnake.bansheenight.command.CommandBansheeNight;
 import ladysnake.bansheenight.init.ModEntities;
 import ladysnake.bansheenight.network.PacketHandler;
@@ -56,6 +58,8 @@ public class BansheeNight {
     public void init(FMLInitializationEvent event) {
         PacketHandler.initPackets();
         GameRegistry.registerTileEntity(TileEntityBlockHolder.class, new ResourceLocation(BansheeNight.MOD_ID, "block_holder"));
+        TemplateUtil.generateStubBlockstates(LadyLib.INSTANCE.getBlockRegistrar(), null);
+        TemplateUtil.generateStubModels(MOD_ID, null);
     }
 
 

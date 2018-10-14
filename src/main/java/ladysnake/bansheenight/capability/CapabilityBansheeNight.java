@@ -13,6 +13,9 @@ import ladysnake.bansheenight.worldevent.SunsetHandler;
 import ladysnake.bansheenight.worldevent.WorldMutationHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -23,12 +26,16 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nullable;
+
 /**
  * A world capability used to control whether a world can start a banshee night
  */
 @AutoCapability(BansheeNightHandler.class)
 @Mod.EventBusSubscriber(modid = BansheeNight.MOD_ID)
 public class CapabilityBansheeNight implements BansheeNightHandler {
+    private static final float TRANSITION_TIME = 600f;
+
     private int ticksSinceLastNight;
     private transient World owner;
 
@@ -47,10 +54,25 @@ public class CapabilityBansheeNight implements BansheeNightHandler {
     }
 
     @Override
+    public void setTicksSinceLastNight(int ticksSinceLastNight) {
+        if (ticksSinceLastNight < 0) {
+            this.startBansheeNight();
+        } else {
+            this.stopBansheeNight();
+        }
+        this.ticksSinceLastNight = ticksSinceLastNight;
+    }
+
+    @Override
+    public float getTransitionProgress() {
+        return isBansheeNightOccurring() ? this.ticksSinceLastNight / -TRANSITION_TIME : 0;
+    }
+
+    @Override
     public void startBansheeNight() {
         if (!MinecraftForge.EVENT_BUS.post(new BansheeNightEvent.Start(owner))) {
             if (owner instanceof WorldServer) {
-                sendToWorld(true);
+                sendToWorld(-1);
                 SunsetHandler.subscribe(owner.provider.getDimension());
                 WorldMutationHandler.subscribe();
             }
@@ -62,15 +84,15 @@ public class CapabilityBansheeNight implements BansheeNightHandler {
     public void stopBansheeNight() {
         if (!MinecraftForge.EVENT_BUS.post(new BansheeNightEvent.Stop(owner))) {
             if (owner instanceof WorldServer) {
-                sendToWorld(false);
+                sendToWorld(0);
             }
             this.ticksSinceLastNight = 0;
         }
     }
 
-    private void sendToWorld(boolean start) {
+    private void sendToWorld(int ticks) {
         for (EntityPlayer player : owner.playerEntities) {
-            PacketHandler.NET.sendTo(new BansheeNightMessage(start), (EntityPlayerMP) player);
+            PacketHandler.NET.sendTo(new BansheeNightMessage(ticks), (EntityPlayerMP) player);
         }
     }
 
@@ -78,6 +100,8 @@ public class CapabilityBansheeNight implements BansheeNightHandler {
     public void tick() {
         if (!this.isBansheeNightOccurring()) {
             this.ticksSinceLastNight++;
+        } else if (this.ticksSinceLastNight > -TRANSITION_TIME) {
+            this.ticksSinceLastNight--;
         }
     }
 
@@ -97,6 +121,22 @@ public class CapabilityBansheeNight implements BansheeNightHandler {
             if(dim == dimension) {
                 event.addCapability(BANSHEE_NIGHT, new SimpleProvider<>(CAPABILITY_BANSHEE_NIGHT, new CapabilityBansheeNight(event.getObject())));
                 break;
+            }
+        }
+    }
+
+    public static class Storage implements Capability.IStorage<BansheeNightHandler> {
+
+        @Nullable
+        @Override
+        public NBTBase writeNBT(Capability<BansheeNightHandler> capability, BansheeNightHandler instance, EnumFacing side) {
+            return new NBTTagInt(instance.getTicksSinceLastNight());
+        }
+
+        @Override
+        public void readNBT(Capability<BansheeNightHandler> capability, BansheeNightHandler instance, EnumFacing side, NBTBase nbt) {
+            if (nbt instanceof NBTTagInt) {
+                instance.setTicksSinceLastNight(((NBTTagInt)nbt).getInt());
             }
         }
     }

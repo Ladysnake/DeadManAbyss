@@ -1,9 +1,11 @@
 package ladysnake.bansheenight.worldevent;
 
 import ladylib.compat.EnhancedBusSubscriber;
-import ladysnake.bansheenight.*;
+import ladysnake.bansheenight.BansheeNight;
+import ladysnake.bansheenight.BansheeNightConfig;
 import ladysnake.bansheenight.api.event.BansheeNightHandler;
-import ladysnake.bansheenight.capability.*;
+import ladysnake.bansheenight.capability.CapabilityBansheeNight;
+import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
 import ladysnake.bansheenight.item.ItemLotus;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -14,7 +16,8 @@ import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.*;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 @EnhancedBusSubscriber(owner = BansheeNight.MOD_ID)
@@ -38,7 +41,7 @@ public class BansheeNightEventHandler {
 
     @SubscribeEvent
     public void onTickWorldTick(TickEvent.WorldTickEvent event) {
-        if(event.phase == TickEvent.Phase.START && !event.world.isRemote) {
+        if(event.phase == TickEvent.Phase.START) {
             BansheeNightHandler cap = event.world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
             if(cap != null) {
                 cap.tick();

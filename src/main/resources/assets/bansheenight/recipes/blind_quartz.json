@@ -1,0 +1,15 @@
+{
+  "type": "crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:quartz"
+    },
+    {
+      "item": "bansheenight:blind_tear"
+    }
+  ],
+  "result": {
+    "item": "bansheenight:blind_quartz",
+    "count": 1
+  }
+}

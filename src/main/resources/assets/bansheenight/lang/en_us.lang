@@ -6,7 +6,14 @@ bansheenight.command.status.on=Banshee night is ON!
 bansheenight.command.status.off=Banshee night is OFF!
 
 entity.blind.name=Blind
-entity.banshee.name=Banshee
+entity.screecher.name=Screecher
+
+tile.bansheenight.lightbleb_empty.name=Empty Lightbleb
+tile.bansheenight.lightbleb.name=Lightbleb
+item.bansheenight.lightbleb_membrane.name=Lightbleb Membrane
+item.bansheenight.ichor_sac.name=Ichor Sac
+item.bansheenight.blind_quartz.name=Blind Quartz
+item.bansheenight.blind_tear.name=Blind Tear
 
 #TODO add better description!
-jei.description.bansheenight.lotus_ritual=at new moon, toss a lotus into water around midnight\ndoes not need to be perfect, you have a small time window
+jei.description.bansheenight.lotus_ritual=at new moon, toss a blind quartz into water around midnight\ndoes not need to be perfect, you have a small time window

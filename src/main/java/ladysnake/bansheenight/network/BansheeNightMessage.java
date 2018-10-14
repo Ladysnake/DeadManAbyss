@@ -6,24 +6,24 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class BansheeNightMessage implements IMessage {
     // true if occurring, false if stopping
-    boolean occurring;
+    int ticks;
 
     @CalledThroughReflection
     public BansheeNightMessage() {
         super();
     }
 
-    public BansheeNightMessage(boolean occurring) {
-        this.occurring = occurring;
+    public BansheeNightMessage(int ticks) {
+        this.ticks = ticks;
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        occurring = buf.readBoolean();
+        ticks = buf.readInt();
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeBoolean(occurring);
+        buf.writeInt(ticks);
     }
 }
