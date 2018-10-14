@@ -8,9 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
-public class EntityAIBansheeNearestAttackableTarget<T extends EntityLivingBase> extends EntityAINearestAttackableTarget<T> {
+public class EntityAIScreecherNearestAttackableTarget<T extends EntityLivingBase> extends EntityAINearestAttackableTarget<T> {
 
-    public EntityAIBansheeNearestAttackableTarget(EntityCreature creature, Class<T> classTarget, boolean checkSight) {
+    public EntityAIScreecherNearestAttackableTarget(EntityCreature creature, Class<T> classTarget, boolean checkSight) {
         super(creature, classTarget, checkSight);
     }
 

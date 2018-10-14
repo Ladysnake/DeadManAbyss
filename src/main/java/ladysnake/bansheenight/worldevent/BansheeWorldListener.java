@@ -1,6 +1,6 @@
 package ladysnake.bansheenight.worldevent;
 
-import ladysnake.bansheenight.entity.EntityBanshee;
+import ladysnake.bansheenight.entity.EntityScreecher;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,7 +39,7 @@ public class BansheeWorldListener implements IWorldEventListener {
     @Override
     public void playSoundToAllNearExcept(@Nullable EntityPlayer player, SoundEvent soundIn, SoundCategory category, double x, double y, double z, float volume, float pitch) {
         // get all banshees within a radius of up to 24 blocks from the sound.
-        for (EntityBanshee banshee : world.getEntitiesWithinAABB(EntityBanshee.class, new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1).grow(volume * 24))) {
+        for (EntityScreecher banshee : world.getEntitiesWithinAABB(EntityScreecher.class, new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1).grow(volume * 24))) {
             banshee.onSoundHeard(soundIn, category, x, y, z, volume);
         }
     }

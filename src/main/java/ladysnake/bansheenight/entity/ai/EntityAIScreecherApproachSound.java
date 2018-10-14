@@ -1,21 +1,21 @@
 package ladysnake.bansheenight.entity.ai;
 
-import ladysnake.bansheenight.entity.EntityBanshee;
+import ladysnake.bansheenight.entity.EntityScreecher;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.Iterator;
 
-public class EntityAIBansheeApproachSound extends EntityAIBase {
+public class EntityAIScreecherApproachSound extends EntityAIBase {
     public static final int MIN_SEEK_DISTANCE_SQ = 64;
-    private final EntityBanshee creature;
+    private final EntityScreecher creature;
     private double movePosX;
     private double movePosY;
     private double movePosZ;
     private final double movementSpeed;
 
-    public EntityAIBansheeApproachSound(EntityBanshee creatureIn, double speedIn) {
+    public EntityAIScreecherApproachSound(EntityScreecher creatureIn, double speedIn) {
         this.creature = creatureIn;
         this.movementSpeed = speedIn;
         this.setMutexBits(1);
@@ -25,14 +25,14 @@ public class EntityAIBansheeApproachSound extends EntityAIBase {
      * Returns whether the EntityAIBase should begin execution.
      */
     public boolean shouldExecute() {
-        Iterator<EntityBanshee.SoundLocation> iterator = this.creature.getSoundsHeard().iterator();
+        Iterator<EntityScreecher.SoundLocation> iterator = this.creature.getSoundsHeard().iterator();
         if (!iterator.hasNext()) {
             return false;
         }
-        EntityBanshee.SoundLocation loc = iterator.next();
+        EntityScreecher.SoundLocation loc = iterator.next();
         double locDistanceSq = this.creature.getDistanceSq(loc.getX(), loc.getY(), loc.getZ());
         while (iterator.hasNext()) {
-            EntityBanshee.SoundLocation next = iterator.next();
+            EntityScreecher.SoundLocation next = iterator.next();
             double distanceSq = this.creature.getDistanceSq(next.getX(), next.getY(), next.getZ());
             // don't seek any sound closer than 8 blocks + max by weight then min distance
             if (distanceSq > MIN_SEEK_DISTANCE_SQ && (locDistanceSq < MIN_SEEK_DISTANCE_SQ ||

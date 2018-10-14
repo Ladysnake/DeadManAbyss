@@ -4,8 +4,8 @@ import ladysnake.bansheenight.api.event.BansheeNightHandler;
 import ladysnake.bansheenight.api.event.BansheeNightSpawnable;
 import ladysnake.bansheenight.capability.CapabilityBansheeNight;
 import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
-import ladysnake.bansheenight.entity.ai.EntityAIBansheeApproachSound;
-import ladysnake.bansheenight.entity.ai.EntityAIBansheeNearestAttackableTarget;
+import ladysnake.bansheenight.entity.ai.EntityAIScreecherApproachSound;
+import ladysnake.bansheenight.entity.ai.EntityAIScreecherNearestAttackableTarget;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -27,14 +27,14 @@ import net.minecraftforge.common.capabilities.Capability;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class EntityBanshee extends EntityMob {
-    private static final DataParameter<Boolean> BLOODY = EntityDataManager.createKey(EntityBanshee.class, DataSerializers.BOOLEAN);
+public class EntityScreecher extends EntityMob {
+    private static final DataParameter<Boolean> BLOODY = EntityDataManager.createKey(EntityScreecher.class, DataSerializers.BOOLEAN);
     public static final int BASE_TRACKED_DISTANCE_FROM_SOUND_SQ = 9;
 
     private final BansheeNightSpawnable CAPABILITY_SPAWN = CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.getDefaultInstance();
     private List<SoundLocation> soundsHeard = new ArrayList<>();
 
-    public EntityBanshee(World worldIn) {
+    public EntityScreecher(World worldIn) {
         super(worldIn);
         this.setSize(1.5f, 3.6f);
     }
@@ -48,10 +48,10 @@ public class EntityBanshee extends EntityMob {
     @Override
     protected void initEntityAI() {
         this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.5D, true));
-        this.tasks.addTask(5, new EntityAIBansheeApproachSound(this, 0.7));
+        this.tasks.addTask(5, new EntityAIScreecherApproachSound(this, 0.7));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAIBansheeNearestAttackableTarget<>(this, EntityPlayer.class, true));
-        this.targetTasks.addTask(6, new EntityAIBansheeNearestAttackableTarget<>(this, EntityLivingBase.class, true));
+        this.targetTasks.addTask(2, new EntityAIScreecherNearestAttackableTarget<>(this, EntityPlayer.class, true));
+        this.targetTasks.addTask(6, new EntityAIScreecherNearestAttackableTarget<>(this, EntityLivingBase.class, true));
     }
 
     @Override
@@ -130,7 +130,7 @@ public class EntityBanshee extends EntityMob {
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        // Make the banshee forget sounds after some time
+        // Make the screecher forget sounds after some time
         // Single sounds are forgotten after 5 seconds on average
         if (world.rand.nextInt(100) == 0) {
             for (Iterator<SoundLocation> iterator = soundsHeard.iterator(); iterator.hasNext(); ) {
@@ -144,7 +144,8 @@ public class EntityBanshee extends EntityMob {
     }
 
     public void onSoundHeard(SoundEvent soundIn, SoundCategory category, double x, double y, double z, float volume) {
-        if (category != SoundCategory.AMBIENT) {
+        // Check that the sound is not from the screecher itself
+        if (category != SoundCategory.AMBIENT && this.getDistanceSq(x, y, z) > 4) {
             SoundLocation loc = new SoundLocation(x, y, z, volume);
             Optional<SoundLocation> existing = soundsHeard.stream()
                     .filter(sl -> sl.squareDistanceTo(loc) < SoundLocation.MAX_SOUND_MERGE_DISTANCE_SQ)

@@ -9,7 +9,7 @@ import net.minecraft.util.math.MathHelper;
  * NewProject - Undefined
  * Created using Tabula 7.0.0
  */
-public class ModelBanshee extends ModelBase {
+public class ModelScreecher extends ModelBase {
     private final ModelRenderer mainBox = new ModelRenderer(this, 0, 0);
     private final ModelRenderer head;
     private final ModelRenderer pelvis;
@@ -23,7 +23,7 @@ public class ModelBanshee extends ModelBase {
     private final ModelRenderer upperLegLeft;
     private final ModelRenderer lowerLegLeft;
 
-    public ModelBanshee() {
+    public ModelScreecher() {
         this.textureWidth = 128;
         this.textureHeight = 64;
         upperLegRight = new ModelRenderer(this, 114, 0);

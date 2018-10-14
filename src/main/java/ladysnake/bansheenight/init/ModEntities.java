@@ -1,16 +1,21 @@
 package ladysnake.bansheenight.init;
 
 import ladysnake.bansheenight.BansheeNight;
-import ladysnake.bansheenight.client.render.entity.*;
-import ladysnake.bansheenight.entity.*;
+import ladysnake.bansheenight.client.render.entity.RenderBlind;
+import ladysnake.bansheenight.client.render.entity.RenderScreecher;
+import ladysnake.bansheenight.entity.EntityBlind;
+import ladysnake.bansheenight.entity.EntityScreecher;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.*;
-import net.minecraftforge.fml.relauncher.*;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber(modid = BansheeNight.MOD_ID)
 public class ModEntities {
@@ -20,13 +25,13 @@ public class ModEntities {
     public static void onRegistryRegister(RegistryEvent.Register<EntityEntry> event) {
         event.getRegistry().registerAll(
                 EntityEntryBuilder.create()
-                        .entity(EntityBanshee.class)
-                        .id(new ResourceLocation(BansheeNight.MOD_ID, "banshee"), id++)
-                        .name("banshee")
+                        .entity(EntityScreecher.class)
+                        .id(new ResourceLocation(BansheeNight.MOD_ID, "screecher"), id++)
+                        .name("screecher")
                         .egg(0xFFFFFF, 0xAAAAAA)
                         .spawn(EnumCreatureType.MONSTER, 1, 1, 1, ForgeRegistries.BIOMES.getValuesCollection())
                         .tracker(64, 1, true)
-                        .factory(EntityBanshee::new)
+                        .factory(EntityScreecher::new)
                         .build(),
                 EntityEntryBuilder.create()
                         .entity(EntityBlind.class)
@@ -42,7 +47,7 @@ public class ModEntities {
 
     @SideOnly(Side.CLIENT)
     public static void registerRenders() {
-        RenderingRegistry.registerEntityRenderingHandler(EntityBanshee.class, RenderBanshee::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityScreecher.class, RenderScreecher::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityBlind.class, RenderBlind::new);
     }
 }
