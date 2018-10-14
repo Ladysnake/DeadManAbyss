@@ -3,9 +3,16 @@ package ladysnake.bansheenight;
 import ladysnake.bansheenight.command.CommandBansheeNight;
 import ladysnake.bansheenight.init.ModEntities;
 import ladysnake.bansheenight.network.PacketHandler;
+import ladysnake.bansheenight.tileentity.TileEntityBlockHolder;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.*;
-import org.apache.logging.log4j.*;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(
         modid = BansheeNight.MOD_ID,
@@ -48,7 +55,9 @@ public class BansheeNight {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         PacketHandler.initPackets();
+        GameRegistry.registerTileEntity(TileEntityBlockHolder.class, new ResourceLocation(BansheeNight.MOD_ID, "block_holder"));
     }
+
 
     /**
      * This is the final initialization event. Register actions from other mods here

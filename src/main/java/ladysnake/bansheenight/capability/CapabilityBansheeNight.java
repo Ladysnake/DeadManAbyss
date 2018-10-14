@@ -1,16 +1,24 @@
 package ladysnake.bansheenight.capability;
 
-import ladylib.capability.*;
+import ladylib.capability.AutoCapability;
+import ladylib.capability.SimpleProvider;
 import ladylib.misc.CalledThroughReflection;
-import ladysnake.bansheenight.*;
-import ladysnake.bansheenight.api.event.*;
-import ladysnake.bansheenight.network.*;
+import ladysnake.bansheenight.BansheeNight;
+import ladysnake.bansheenight.BansheeNightConfig;
+import ladysnake.bansheenight.api.event.BansheeNightEvent;
+import ladysnake.bansheenight.api.event.BansheeNightHandler;
+import ladysnake.bansheenight.network.BansheeNightMessage;
+import ladysnake.bansheenight.network.PacketHandler;
 import ladysnake.bansheenight.worldevent.SunsetHandler;
-import net.minecraft.entity.player.*;
+import ladysnake.bansheenight.worldevent.WorldMutationHandler;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.*;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.*;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -44,6 +52,7 @@ public class CapabilityBansheeNight implements BansheeNightHandler {
             if (owner instanceof WorldServer) {
                 sendToWorld(true);
                 SunsetHandler.subscribe(owner.provider.getDimension());
+                WorldMutationHandler.subscribe();
             }
             this.ticksSinceLastNight = -1;
         }
