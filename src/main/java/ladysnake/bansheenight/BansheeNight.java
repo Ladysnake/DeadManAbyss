@@ -1,12 +1,13 @@
 package ladysnake.bansheenight;
 
 import ladylib.LadyLib;
-import ladylib.misc.TemplateUtil;
 import ladysnake.bansheenight.command.CommandBansheeNight;
 import ladysnake.bansheenight.compat.CompatMobSpawn;
 import ladysnake.bansheenight.init.ModEntities;
+import ladysnake.bansheenight.init.ModItems;
 import ladysnake.bansheenight.network.PacketHandler;
 import ladysnake.bansheenight.tileentity.TileEntityBlockHolder;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -29,7 +30,7 @@ import org.apache.logging.log4j.Logger;
 public class BansheeNight {
 
     public static final String MOD_ID = "bansheenight";
-    public static final String MOD_NAME = "Banshee Night";
+    public static final String MOD_NAME = "Dead Man's Abyss";
     public static final String VERSION = "@VERSION@";
 
     public static final BansheeNight INSTANCE = new BansheeNight();
@@ -46,6 +47,7 @@ public class BansheeNight {
      */
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        LadyLib.INSTANCE.getContainer(MOD_ID).makeCreativeTab(() -> new ItemStack(ModItems.ICHOR_SAC));
         if(event.getSide().isClient()) {
             ModEntities.registerRenders();
         }
@@ -58,8 +60,6 @@ public class BansheeNight {
     public void init(FMLInitializationEvent event) {
         PacketHandler.initPackets();
         GameRegistry.registerTileEntity(TileEntityBlockHolder.class, new ResourceLocation(BansheeNight.MOD_ID, "block_holder"));
-        TemplateUtil.generateStubBlockstates(LadyLib.INSTANCE.getBlockRegistrar(), null);
-        TemplateUtil.generateStubModels(MOD_ID, null);
     }
 
 
