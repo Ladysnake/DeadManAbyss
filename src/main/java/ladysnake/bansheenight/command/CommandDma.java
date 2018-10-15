@@ -52,5 +52,6 @@ public class CommandDma extends CommandBase {
                 throw new CommandException("dma.command.no_cap");
             }
         }
+        else throw new WrongUsageException(getUsage(sender));
     }
 }
