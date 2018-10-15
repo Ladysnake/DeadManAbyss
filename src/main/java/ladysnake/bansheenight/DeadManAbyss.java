@@ -64,7 +64,7 @@ public class DeadManAbyss {
      */
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        PacketHandler.initPackets();
+        PacketHandler.initPackets(event);
         GameRegistry.registerTileEntity(TileEntityBlockHolder.class, new ResourceLocation(DeadManAbyss.MOD_ID, "block_holder"));
     }
 
