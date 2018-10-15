@@ -14,6 +14,10 @@ public class SunsetHandler {
     private static boolean subscribed;
     private static final Set<Integer> dimensions = new HashSet<>();
 
+    public static boolean isActive(int dimension) {
+        return dimensions.contains(dimension);
+    }
+
     public static void subscribe(int dimension) {
         if(!subscribed) {
             MinecraftForge.EVENT_BUS.register(SunsetHandler.class);

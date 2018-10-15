@@ -46,7 +46,7 @@ public class DmaConfig {
 
         @Config.Name("On Return From Portal")
         @Config.Comment("Trigger an event when returning from another dimension")
-        public boolean portal = false;
+        public boolean portal = true;
 
         //FIXME implement! ^Up
         @Config.Name("On Sunset")

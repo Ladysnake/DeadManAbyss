@@ -65,18 +65,20 @@ public class DmaWorldHandler {
 
     @SubscribeEvent
     public void onTickWorldTick(TickEvent.WorldTickEvent event) {
-        if(event.phase == TickEvent.Phase.START) {
+        if(event.phase == TickEvent.Phase.START && !event.world.isRemote) {
             DmaEventHandler cap = event.world.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
             if(cap != null) {
                 cap.tick();
-                if(cap.isEventOccuring()) {
-                    if(++tickCounter % 3 == 0) event.world.setWorldTime(event.world.getWorldTime() - 2); //TODO adjust night duration rate? ^Up
-                    float angle = event.world.getCelestialAngle(1.0F);
+                if(!SunsetHandler.isActive(event.world.provider.getDimension())) {
+                    if(cap.isEventOccuring()) {
+                        if(++tickCounter % 3 == 0) event.world.setWorldTime(event.world.getWorldTime() - 2); //TODO adjust night duration rate? ^Up
+                        float angle = event.world.getCelestialAngle(1.0F);
 
-                    if(angle > 0.76F) cap.stopEvent(); //stop the night at dawn
-                }
-                else {
-                    //TODO randomly start night if time is around sunset, but only check once per ingame day! ^Up
+                        if(angle > 0.76F) cap.stopEvent(); //stop the night at dawn
+                    }
+                    else {
+                        //TODO randomly start night if time is around sunset, but only check once per ingame day! ^Up
+                    }
                 }
             }
         }
@@ -98,7 +100,7 @@ public class DmaWorldHandler {
     }
 
     @SubscribeEvent
-    public void onPLayerDropLotus(ItemTossEvent event) {
+    public void onPlayerDropQuartz(ItemTossEvent event) {
         if(!event.getPlayer().world.isRemote) {
             EntityItem item = event.getEntityItem();
             if(item.getItem().getItem() instanceof ItemBlindQuartz) {
