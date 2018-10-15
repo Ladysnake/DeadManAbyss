@@ -11,8 +11,8 @@ import javax.annotation.Nullable;
 
 public class RenderScreecher extends RenderLiving<EntityScreecher> {
 
-    private static final ResourceLocation SCREECHER_TEXTURE = new ResourceLocation(DeadManAbyss.MOD_ID, "textures/entity/banshee.png");
-    private static final ResourceLocation SCREECHER_TEXTURE_BLOODY = new ResourceLocation(DeadManAbyss.MOD_ID, "textures/entity/banshee_bloody.png");
+    private static final ResourceLocation SCREECHER_TEXTURE = new ResourceLocation(DeadManAbyss.MOD_ID, "textures/entity/screecher.png");
+    private static final ResourceLocation SCREECHER_TEXTURE_BLOODY = new ResourceLocation(DeadManAbyss.MOD_ID, "textures/entity/screecher_bloody.png");
 
     public RenderScreecher(RenderManager rendermanagerIn) {
         super(rendermanagerIn, new ModelScreecher(), 1.0F);
