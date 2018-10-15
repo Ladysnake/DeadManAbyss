@@ -18,4 +18,6 @@ item.dma.blind_quartz.name=Blind Quartz
 item.dma.blind_tear.name=Blind Tear
 
 #TODO add better description!
-jei.description.dma.quartz_ritual=toss a blind quartz into water\n you have to wait %s more seconds!
+#TODO find a way to show the remaining time in JEI!
+jei.description.dma.quartz_ritual=toss a blind quartz into water\nNOTE: there's a minimum delay between two events, look at the config.
+##disbled #you have to wait %s more seconds!

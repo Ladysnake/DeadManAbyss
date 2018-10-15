@@ -4,8 +4,8 @@
         "srcrgb": "srcalpha",
         "dstrgb": "1-srcalpha"
     },
-    "vertex": "bansheenight:fancy_darkness",
-    "fragment": "bansheenight:fancy_darkness",
+    "vertex": "dma:fancy_darkness",
+    "fragment": "dma:fancy_darkness",
     "attributes": [ "Position" ],
     "samplers": [
         { "name": "DiffuseSampler" },

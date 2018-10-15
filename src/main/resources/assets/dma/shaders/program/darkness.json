@@ -5,7 +5,7 @@
         "dstrgb": "1-srcalpha"
     },
     "vertex": "minecraft:sobel",
-    "fragment": "bansheenight:darkness",
+    "fragment": "dma:darkness",
     "attributes": [ "Position" ],
     "samplers": [
         { "name": "DiffuseSampler" }
