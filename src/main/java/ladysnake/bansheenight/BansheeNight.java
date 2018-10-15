@@ -3,6 +3,7 @@ package ladysnake.bansheenight;
 import ladylib.LadyLib;
 import ladylib.misc.TemplateUtil;
 import ladysnake.bansheenight.command.CommandBansheeNight;
+import ladysnake.bansheenight.compat.CompatMobSpawn;
 import ladysnake.bansheenight.init.ModEntities;
 import ladysnake.bansheenight.network.PacketHandler;
 import ladysnake.bansheenight.tileentity.TileEntityBlockHolder;
@@ -67,7 +68,7 @@ public class BansheeNight {
      */
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-
+        CompatMobSpawn.init();
     }
 
     @Mod.EventHandler

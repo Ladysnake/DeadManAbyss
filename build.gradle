@@ -101,9 +101,9 @@ dependencies {
     //mod compat
     deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}"
 
-    deobfCompile "com.github.Lykrast:HarvestersNight:1.0.1"
-    deobfCompile "com.github.bl4ckscor3:Scarecrows:v1.0.1"
-    deobfCompile "com.github.gigaherz:EyesInTheDarkness:v0.0.1"
+//    deobfCompile "com.github.Lykrast:HarvestersNight:1.0.1"
+//    deobfCompile "com.github.bl4ckscor3:Scarecrows:v1.0.1"
+//    deobfCompile "com.github.gigaherz:EyesInTheDarkness:v0.0.1"
 //    compile "com.github.Ladysnake:Dissolution:${dis_version}:api"
 //    contained "com.github.Ladysnake:Dissolution:${dis_version}:api"
 //    runtimeOnly "com.github.Ladysnake:Dissolution:${dis_version}"

@@ -24,6 +24,11 @@ public class BansheeNightConfig {
     @Config.Comment("The whitelist for dimensions in which the event can occur")
     public static int[] dimWhiteList = {0};
 
+    @Config.RequiresMcRestart
+    @Config.Name(("Entity Whitelist"))
+    @Config.Comment("The whitelist for entities that can spawn during the event")
+    public static String[] entityWhiteList = {"harvestersnight:harvester", "eyesinthedarkness:eyes", "scarecrows:scarecrow"};
+
     @Config.Name("Trigger Config")
     @Config.Comment("Configure the specific triggers separately")
     public static final Triggers triggers = new Triggers();
