@@ -22,7 +22,6 @@ import org.apache.logging.log4j.Logger;
         version = BansheeNight.VERSION,
         certificateFingerprint = "@FINGERPRINTKEY@",
         dependencies = "required-after:forge;" +
-                       "required-after:glasspane;" +
                        "required-after:ladylib;" +
                        "after:jei"
 )
