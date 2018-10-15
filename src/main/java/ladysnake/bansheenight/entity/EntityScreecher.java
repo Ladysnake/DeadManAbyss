@@ -31,7 +31,7 @@ public class EntityScreecher extends EntityMob {
     private static final DataParameter<Boolean> BLOODY = EntityDataManager.createKey(EntityScreecher.class, DataSerializers.BOOLEAN);
     public static final int BASE_TRACKED_DISTANCE_FROM_SOUND_SQ = 9;
 
-    private final BansheeNightSpawnable CAPABILITY_SPAWN = CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.getDefaultInstance();
+    private final BansheeNightSpawnable capabilitySpawn = CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.getDefaultInstance();
     private List<SoundLocation> soundsHeard = new ArrayList<>();
 
     public EntityScreecher(World worldIn) {
@@ -124,7 +124,7 @@ public class EntityScreecher extends EntityMob {
     @Nullable
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN ? CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.cast(CAPABILITY_SPAWN) : super.getCapability(capability, facing);
+        return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN ? CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.cast(capabilitySpawn) : super.getCapability(capability, facing);
     }
 
     @Override

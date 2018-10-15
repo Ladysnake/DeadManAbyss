@@ -1,9 +1,5 @@
 package ladysnake.bansheenight.client;
 
-import ladylib.client.lighting.AttachedCheapLight;
-import ladylib.client.lighting.CheapLightManager;
-import ladylib.client.lighting.MutableCheapLight;
-import ladylib.client.lighting.SimpleCheapLight;
 import ladylib.client.shader.ShaderUtil;
 import ladylib.compat.EnhancedBusSubscriber;
 import ladysnake.bansheenight.BansheeNight;
@@ -41,7 +37,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 
 import javax.annotation.Nonnull;
-import java.awt.*;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.Iterator;
@@ -55,8 +50,6 @@ public class BansheeNightShaderManager implements ISelectiveResourceReloadListen
     public static final ResourceLocation FANCY_NIGHT_SHADER = new ResourceLocation(BansheeNight.MOD_ID, "shaders/post/fancy_darkness.json");
     private ShaderGroup shader;
     private int oldDisplayWidth, oldDisplayHeight;
-
-    private MutableCheapLight ichorLight;
 
     // fancy shader stuff
     private Matrix4f projectionMatrix = new Matrix4f();
@@ -86,15 +79,8 @@ public class BansheeNightShaderManager implements ISelectiveResourceReloadListen
                             for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
                                 ItemStack stack = player.inventory.getStackInSlot(i);
                                 if (stack.getItem() == ModItems.ICHOR_SAC || stack.getItem() == ModItems.LIGHTBLEB) {
-                                    if (ichorLight == null || ichorLight.isExpired()) {
-                                        ichorLight = new SimpleCheapLight(player.getPositionVector(), 10f, new Color(252, 147, 0));
-                                        CheapLightManager.INSTANCE.addLight(new AttachedCheapLight(ichorLight, player));
-                                    }
                                     playerHasLantern = true;
                                 }
-                            }
-                            if (!playerHasLantern && ichorLight != null) {
-                                ichorLight.setExpired(true);
                             }
                         }
                     }
@@ -131,6 +117,9 @@ public class BansheeNightShaderManager implements ISelectiveResourceReloadListen
                 GlStateManager.loadIdentity();
                 shader.render(event.getPartialTicks());
                 Minecraft.getMinecraft().getFramebuffer().bindFramebuffer(true);
+                GlStateManager.disableBlend();
+                GlStateManager.enableAlpha();
+                GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA); // restore blending
                 GlStateManager.enableDepth();
             } else if (OpenGlHelper.areShadersSupported()) {
                 ((IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager()).registerReloadListener(this);
@@ -145,11 +134,10 @@ public class BansheeNightShaderManager implements ISelectiveResourceReloadListen
         frustum.setPosition(camera.posX, camera.posY, camera.posZ);
         ShaderUtil.setUniform("InverseTransformMatrix", computeInverseTransformMatrix());
         int lightCount = 0;
-        if (playerHasLantern) {
-            ShaderUtil.setUniform("Lights[" + lightCount + "].position", 0f, 0f, 0f);
-            ShaderUtil.setUniform("Lights[" + lightCount + "].radius", 40f);
-            lightCount++;
-        }
+        // Add a visibility area around the player
+        ShaderUtil.setUniform("Lights[" + lightCount + "].position", 0f, 0f, 0f);
+        ShaderUtil.setUniform("Lights[" + lightCount + "].radius", 40f);
+        lightCount++;
         for (Iterator<Map.Entry<TileEntity, Integer>> iterator = glowingTEs.entrySet().iterator(); iterator.hasNext(); ) {
             Map.Entry<TileEntity, Integer> entry = iterator.next();
             TileEntity te = entry.getKey();
@@ -159,12 +147,17 @@ public class BansheeNightShaderManager implements ISelectiveResourceReloadListen
             } else {
                 // TODO frustum check
                 BlockPos pos = te.getPos();
-                float x = (float) (pos.getX() + 0.5f - Particle.interpPosX);
-                float y = (float) (pos.getY() + 0.5f - Particle.interpPosY);
-                float z = (float) (pos.getZ() + 0.5f - Particle.interpPosZ);
-                ShaderUtil.setUniform("Lights[" + lightCount + "].position", x, y, z);
-                ShaderUtil.setUniform("Lights[" + lightCount + "].radius", lightValue);
-                lightCount++;
+                float posX = pos.getX() + 0.5f;
+                float posY = pos.getY() + 0.5f;
+                float posZ = pos.getZ() + 0.5f;
+                if (frustum.isBoxInFrustum(posX - lightValue, posY - lightValue, posZ - lightValue, posX + lightValue, posY + lightValue, posZ + lightValue)) {
+                    float x = (float) (posX - Particle.interpPosX);
+                    float y = (float) (posY - Particle.interpPosY);
+                    float z = (float) (posZ - Particle.interpPosZ);
+                    ShaderUtil.setUniform("Lights[" + lightCount + "].position", x, y, z);
+                    ShaderUtil.setUniform("Lights[" + lightCount + "].radius", lightValue);
+                    lightCount++;
+                }
             }
         }
         ShaderUtil.setUniform("LightCount", lightCount);
