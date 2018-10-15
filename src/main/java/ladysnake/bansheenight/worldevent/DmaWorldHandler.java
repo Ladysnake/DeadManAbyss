@@ -10,7 +10,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.*;
-import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -23,26 +22,22 @@ public class DmaWorldHandler {
     private static final ResourceLocation NETHER_ADVANCEMENT = new ResourceLocation("minecraft:nether/root");
 
     @SubscribeEvent
-    public void onReturnFromPortal(EntityTravelToDimensionEvent event) {
-        if(!event.getEntity().world.isRemote && event.getEntity() instanceof EntityPlayerMP) { //Entity#world is NOT the target world, but it's fine for the side check
-            WorldServer world = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(event.getDimension());
+    public void onReturnFromPortal(PlayerEvent.PlayerChangedDimensionEvent event) {
+        if(!event.player.world.isRemote) {
+            WorldServer world = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(event.toDim);
             DmaEventHandler cap = world.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
             if(cap != null) {
                 if(DmaConfig.triggers.portal) {
-                    if(cap.getTicksSinceLastEvent() >= DmaConfig.minTicksBetweenEvents && isPlayerReady((EntityPlayerMP) event.getEntity()) && world.rand.nextDouble() < DmaConfig.eventProbability) {
+                    if(cap.getTicksSinceLastEvent() >= DmaConfig.minTicksBetweenEvents && isPlayerReady((EntityPlayerMP) event.player) && world.rand.nextDouble() < DmaConfig.eventProbability) {
                         cap.startEvent(); //TODO randomize it a bit more? ^Up
                     }
                 }
-                if(cap.isEventOccuring()) {
-                    PacketHandler.NET.sendTo(new DmaNightMessage(cap.getTicksSinceLastEvent()), (EntityPlayerMP) event.getEntity());
-                }
+                PacketHandler.NET.sendTo(new DmaNightMessage(cap.getTicksSinceLastEvent()), (EntityPlayerMP) event.player);
             }
-
         }
     }
 
-    @SubscribeEvent
-    public void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
+    private static void notifyPlayer(PlayerEvent event) {
         World world = event.player.world;
         if(!world.isRemote) {
             DmaEventHandler cap = world.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
@@ -50,6 +45,16 @@ public class DmaWorldHandler {
                 PacketHandler.NET.sendTo(new DmaNightMessage(cap.getTicksSinceLastEvent()), (EntityPlayerMP) event.player);
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        notifyPlayer(event);
+    }
+
+    @SubscribeEvent
+    public void onLogIn(PlayerEvent.PlayerLoggedInEvent event) {
+        notifyPlayer(event);
     }
 
     public static boolean isPlayerReady(EntityPlayerMP player) {
