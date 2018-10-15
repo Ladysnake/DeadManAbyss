@@ -1,8 +1,8 @@
 package ladysnake.bansheenight.block;
 
-import ladysnake.bansheenight.api.event.BansheeNightHandler;
+import ladysnake.bansheenight.api.event.DmaEventHandler;
 import ladysnake.bansheenight.api.event.BlockHolderHandler;
-import ladysnake.bansheenight.capability.CapabilityBansheeNight;
+import ladysnake.bansheenight.capability.CapabilityDmaEvent;
 import ladysnake.bansheenight.capability.CapabilityBlockHolder;
 import ladysnake.bansheenight.tileentity.TileEntityBlockHolder;
 import net.minecraft.block.BlockBush;
@@ -37,8 +37,8 @@ public class BlockMutatedBush extends BlockBush {
         if (state.getValue(DECAYABLE)) {
             TileEntity te = worldIn.getTileEntity(pos);
             if (te != null) {
-                BansheeNightHandler cap = worldIn.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
-                if (cap != null && !cap.isBansheeNightOccurring()) {
+                DmaEventHandler cap = worldIn.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
+                if (cap != null && !cap.isEventOccuring()) {
                     BlockHolderHandler blockHolder = te.getCapability(CapabilityBlockHolder.CAPABILITY_BLOCK_HOLDER, null);
                     worldIn.setBlockState(pos, blockHolder.getHeldBlock(), 2);
                     return;

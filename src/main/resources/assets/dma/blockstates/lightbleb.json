@@ -1,0 +1,17 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "minecraft:cross",
+    "textures": {
+      "cross": "dma:blocks/lightbleb"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "decayable": {
+      "true":  {},
+      "false": {}
+    }
+  }
+}

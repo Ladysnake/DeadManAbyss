@@ -1,9 +1,9 @@
 package ladysnake.bansheenight.entity;
 
-import ladysnake.bansheenight.api.event.BansheeNightHandler;
-import ladysnake.bansheenight.api.event.BansheeNightSpawnable;
-import ladysnake.bansheenight.capability.CapabilityBansheeNight;
-import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
+import ladysnake.bansheenight.api.event.DmaEventHandler;
+import ladysnake.bansheenight.api.event.DmaSpawnable;
+import ladysnake.bansheenight.capability.CapabilityDmaEvent;
+import ladysnake.bansheenight.capability.CapabilityDmaSpawnable;
 import ladysnake.bansheenight.entity.ai.EntityAIScreecherApproachSound;
 import ladysnake.bansheenight.entity.ai.EntityAIScreecherNearestAttackableTarget;
 import net.minecraft.entity.Entity;
@@ -31,7 +31,7 @@ public class EntityScreecher extends EntityMob {
     private static final DataParameter<Boolean> BLOODY = EntityDataManager.createKey(EntityScreecher.class, DataSerializers.BOOLEAN);
     public static final int BASE_TRACKED_DISTANCE_FROM_SOUND_SQ = 9;
 
-    private final BansheeNightSpawnable capabilitySpawn = CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.getDefaultInstance();
+    private final DmaSpawnable capabilitySpawn = CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY.getDefaultInstance();
     private List<SoundLocation> soundsHeard = new ArrayList<>();
 
     public EntityScreecher(World worldIn) {
@@ -96,8 +96,8 @@ public class EntityScreecher extends EntityMob {
 
     @Override
     public boolean getCanSpawnHere() {
-        BansheeNightHandler cap = this.world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
-        return cap != null && cap.isBansheeNightOccurring() && super.getCanSpawnHere();
+        DmaEventHandler cap = this.world.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
+        return cap != null && cap.isEventOccuring() && super.getCanSpawnHere();
     }
 
     @Override
@@ -118,13 +118,13 @@ public class EntityScreecher extends EntityMob {
 
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN || super.hasCapability(capability, facing);
+        return capability == CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @Nullable
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN ? CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.cast(capabilitySpawn) : super.getCapability(capability, facing);
+        return capability == CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY ? CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY.cast(capabilitySpawn) : super.getCapability(capability, facing);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package ladysnake.bansheenight.init;
 
-import ladysnake.bansheenight.BansheeNight;
+import ladysnake.bansheenight.DeadManAbyss;
 import ladysnake.bansheenight.client.render.entity.RenderBlind;
 import ladysnake.bansheenight.client.render.entity.RenderScreecher;
 import ladysnake.bansheenight.entity.EntityBlind;
@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod.EventBusSubscriber(modid = BansheeNight.MOD_ID)
+@Mod.EventBusSubscriber(modid = DeadManAbyss.MOD_ID)
 public class ModEntities {
     private static int id = 0;
 
@@ -26,8 +26,8 @@ public class ModEntities {
         event.getRegistry().registerAll(
                 EntityEntryBuilder.create()
                         .entity(EntityScreecher.class)
-                        .id(new ResourceLocation(BansheeNight.MOD_ID, "screecher"), id++)
-                        .name("screecher")
+                        .id(new ResourceLocation(DeadManAbyss.MOD_ID, "screecher"), id++)
+                        .name(DeadManAbyss.MOD_ID + ".screecher")
                         .egg(0xFFFFFF, 0xAAAAAA)
                         .spawn(EnumCreatureType.MONSTER, 1, 1, 1, ForgeRegistries.BIOMES.getValuesCollection())
                         .tracker(64, 1, true)
@@ -35,8 +35,8 @@ public class ModEntities {
                         .build(),
                 EntityEntryBuilder.create()
                         .entity(EntityBlind.class)
-                        .id(new ResourceLocation(BansheeNight.MOD_ID, "blind"), id++)
-                        .name("blind")
+                        .id(new ResourceLocation(DeadManAbyss.MOD_ID, "blind"), id++)
+                        .name(DeadManAbyss.MOD_ID + ".blind")
                         .egg(0x111111, 0xAAAAAA)
                         .spawn(EnumCreatureType.MONSTER, 1, 1, 1, ForgeRegistries.BIOMES.getValuesCollection())
                         .tracker(64, 1, true)

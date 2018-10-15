@@ -1,7 +1,7 @@
 package ladysnake.bansheenight.api;
 
 import ladylib.misc.PublicApi;
-import ladysnake.bansheenight.BansheeNight;
+import ladysnake.bansheenight.DeadManAbyss;
 import ladysnake.bansheenight.api.event.RegisterMutationsEvent;
 import net.minecraft.block.Block;
 import net.minecraft.item.crafting.IRecipe;
@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Mod.EventBusSubscriber(modid = BansheeNight.MOD_ID)
+@Mod.EventBusSubscriber(modid = DeadManAbyss.MOD_ID)
 public class MutationRegistry {
     private static Map<Block, Block> mutations;
 

@@ -1,0 +1,21 @@
+#PARSE_ESCAPES
+
+itemGroup.dma=Dead Man's Abyss
+
+dma.command.usage=/dma <on|off> [dimension]
+dma.command.no_cap=The banshee night capability is not attached to the current world
+dma.command.status.on=Banshee night is ON!
+dma.command.status.off=Banshee night is OFF!
+
+entity.dma.blind.name=Aveugle
+entity.dma.screecher.name=Hurleur
+
+tile.dma.lightbleb_empty.name=Ambloub vide
+tile.dma.lightbleb.name=Ambloub
+item.dma.lightbleb_membrane.name=Membrane d'ambloub
+item.dma.ichor_sac.name=Sac à ichor
+item.dma.blind_quartz.name=Quartz Aveugle
+item.dma.blind_tear.name=Larme Aveugle
+
+#TODO add better description!
+jei.description.dma.lotus_ritual=Jetez un Quartz Aveugle dans de l'eau autour de minuit\nN'a pas besoin d'être parfait, vous avez une petite fenêtre de temps.

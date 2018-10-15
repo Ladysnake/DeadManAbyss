@@ -1,8 +1,8 @@
 package ladysnake.bansheenight.worldevent;
 
 import ladysnake.bansheenight.api.MutationRegistry;
-import ladysnake.bansheenight.api.event.BansheeNightHandler;
-import ladysnake.bansheenight.capability.CapabilityBansheeNight;
+import ladysnake.bansheenight.api.event.DmaEventHandler;
+import ladysnake.bansheenight.capability.CapabilityDmaEvent;
 import ladysnake.bansheenight.capability.CapabilityBlockHolder;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -28,8 +28,8 @@ public class WorldMutationHandler {
     @SubscribeEvent
     public void onTickWorldTick(TickEvent.WorldTickEvent event) {
         if (event.world instanceof WorldServer && event.phase == TickEvent.Phase.END) {
-            BansheeNightHandler cap = event.world.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
-            if (cap != null && cap.isBansheeNightOccurring() && event.world.getWorldInfo().getTerrainType() != WorldType.DEBUG_ALL_BLOCK_STATES) {
+            DmaEventHandler cap = event.world.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
+            if (cap != null && cap.isEventOccuring() && event.world.getWorldInfo().getTerrainType() != WorldType.DEBUG_ALL_BLOCK_STATES) {
                 mutateBlocks((WorldServer) event.world);
             }
         }

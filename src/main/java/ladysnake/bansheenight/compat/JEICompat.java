@@ -12,7 +12,7 @@ public class JEICompat implements IModPlugin {
 
     @Override
     public void register(IModRegistry registry) {
-        registry.addIngredientInfo(new ItemStack(ModItems.BLIND_QUARTZ), VanillaTypes.ITEM, "jei.description.bansheenight.lotus_ritual");
+        registry.addIngredientInfo(new ItemStack(ModItems.BLIND_QUARTZ), VanillaTypes.ITEM, "jei.description.dma.quartz_ritual");
     }
 
 }

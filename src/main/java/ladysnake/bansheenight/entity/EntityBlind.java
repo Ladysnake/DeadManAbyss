@@ -1,8 +1,8 @@
 package ladysnake.bansheenight.entity;
 
-import ladysnake.bansheenight.BansheeNight;
-import ladysnake.bansheenight.api.event.BansheeNightSpawnable;
-import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
+import ladysnake.bansheenight.DeadManAbyss;
+import ladysnake.bansheenight.api.event.DmaSpawnable;
+import ladysnake.bansheenight.capability.CapabilityDmaSpawnable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -26,12 +26,12 @@ import java.util.UUID;
 
 public class EntityBlind extends EntityMob {
 
-    private static final ResourceLocation LOOT = new ResourceLocation(BansheeNight.MOD_ID, "entities/blind");
+    private static final ResourceLocation LOOT = new ResourceLocation(DeadManAbyss.MOD_ID, "entities/blind");
     private static final DataParameter<Boolean> IS_CHILD = EntityDataManager.createKey(EntityBlind.class, DataSerializers.BOOLEAN);
     private static final UUID BABY_SPEED_BOOST_ID = UUID.fromString("54b625b3-e51b-4612-9d14-d7d1b5f55002");
     private static final AttributeModifier BABY_SPEED_BOOST = new AttributeModifier(BABY_SPEED_BOOST_ID, "Baby speed boost", 0.5D, 1);
     private static final DataParameter<Boolean> ARMS_RAISED = EntityDataManager.createKey(EntityZombie.class, DataSerializers.BOOLEAN);
-    private final BansheeNightSpawnable CAPABILITY_SPAWN = CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.getDefaultInstance();
+    private final DmaSpawnable CAPABILITY_SPAWN = CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY.getDefaultInstance();
     private static final float width = 0.6F;
     private static final float height = 1.95F;
 
@@ -61,13 +61,13 @@ public class EntityBlind extends EntityMob {
 
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN || super.hasCapability(capability, facing);
+        return capability == CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @Nullable
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN ? CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.cast(CAPABILITY_SPAWN) : super.getCapability(capability, facing);
+        return capability == CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY ? CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY.cast(CAPABILITY_SPAWN) : super.getCapability(capability, facing);
     }
 
     @Override

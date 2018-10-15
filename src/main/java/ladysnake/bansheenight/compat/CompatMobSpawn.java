@@ -1,9 +1,9 @@
 package ladysnake.bansheenight.compat;
 
-import ladysnake.bansheenight.BansheeNight;
-import ladysnake.bansheenight.BansheeNightConfig;
-import ladysnake.bansheenight.api.event.BansheeNightSpawnable;
-import ladysnake.bansheenight.capability.CapabilityBansheeNightSpawnable;
+import ladysnake.bansheenight.DeadManAbyss;
+import ladysnake.bansheenight.DmaConfig;
+import ladysnake.bansheenight.api.event.DmaSpawnable;
+import ladysnake.bansheenight.capability.CapabilityDmaSpawnable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -26,10 +26,10 @@ public class CompatMobSpawn {
 
     private static Set<ResourceLocation> compatMobs;
 
-    private static final ResourceLocation SPAWN_CAPABILITY = new ResourceLocation(BansheeNight.MOD_ID, "spawn");
+    private static final ResourceLocation SPAWN_CAPABILITY = new ResourceLocation(DeadManAbyss.MOD_ID, "spawn");
 
     public static void init() {
-        compatMobs = Arrays.stream(BansheeNightConfig.entityWhiteList).map(ResourceLocation::new).filter(ForgeRegistries.ENTITIES::containsKey).collect(Collectors.toSet());
+        compatMobs = Arrays.stream(DmaConfig.entityWhiteList).map(ResourceLocation::new).filter(ForgeRegistries.ENTITIES::containsKey).collect(Collectors.toSet());
         if (!compatMobs.isEmpty()) {
             MinecraftForge.EVENT_BUS.register(CompatMobSpawn.class);
         }
@@ -43,16 +43,16 @@ public class CompatMobSpawn {
 
             if(flag) event.addCapability(SPAWN_CAPABILITY, new ICapabilityProvider() {
 
-                BansheeNightSpawnable instance = CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.getDefaultInstance();
+                DmaSpawnable instance = CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY.getDefaultInstance();
                 @Override
                 public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-                    return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN;
+                    return capability == CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY;
                 }
 
                 @Nullable
                 @Override
                 public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-                    return capability == CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN ? CapabilityBansheeNightSpawnable.CAPABILITY_BANSHEE_NIGHT_SPAWN.cast(instance) : null;
+                    return capability == CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY ? CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY.cast(instance) : null;
                 }
             });
         }

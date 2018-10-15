@@ -1,5 +1,5 @@
 /**
- * Classes handling specific world behaviour during the Banshee Night event
+ * Classes handling specific world behaviour during the Dead Man's Abyss event
  */
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
