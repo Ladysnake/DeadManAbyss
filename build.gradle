@@ -264,7 +264,7 @@ tasks.curseforge.dependsOn build
 
 // Artifacts to upload to local maven repository
 artifacts {
-    //archives apiJar
+    archives apiJar
     archives javadocJar
 }
 
@@ -288,7 +288,7 @@ curseforge {
 
             addArtifact javadocJar
             //addArtifact sourceJar
-            //addArtifact apiJar
+            addArtifact apiJar
 
             //addGameVersion '1.12'
             //addGameVersion '1.12.1'
