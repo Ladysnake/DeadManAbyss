@@ -7,6 +7,7 @@ import ladysnake.bansheenight.init.ModEntities;
 import ladysnake.bansheenight.init.ModItems;
 import ladysnake.bansheenight.network.PacketHandler;
 import ladysnake.bansheenight.tileentity.TileEntityBlockHolder;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
@@ -47,7 +48,12 @@ public class BansheeNight {
      */
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        LadyLib.INSTANCE.getContainer(MOD_ID).makeCreativeTab(() -> new ItemStack(ModItems.ICHOR_SAC));
+        LadyLib.INSTANCE.getContainer(MOD_ID).setCreativeTab(new CreativeTabs(MOD_ID) {
+            @Override
+            public ItemStack createIcon() {
+                return new ItemStack(ModItems.ICHOR_SAC);
+            }
+        });
         if(event.getSide().isClient()) {
             ModEntities.registerRenders();
         }

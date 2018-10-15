@@ -1,5 +1,7 @@
 #PARSE_ESCAPES
 
+itemGroup.bansheenight=Dead Man's Abyss
+
 bansheenight.command.usage=/banshee_night <on|off> [dimension]
 bansheenight.command.no_cap=The banshee night capability is not attached to the current world
 bansheenight.command.status.on=Banshee night is ON!
