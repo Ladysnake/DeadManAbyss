@@ -40,7 +40,7 @@ public class BlockMutatedBush extends BlockBush {
                 BansheeNightHandler cap = worldIn.getCapability(CapabilityBansheeNight.CAPABILITY_BANSHEE_NIGHT, null);
                 if (cap != null && !cap.isBansheeNightOccurring()) {
                     BlockHolderHandler blockHolder = te.getCapability(CapabilityBlockHolder.CAPABILITY_BLOCK_HOLDER, null);
-                    worldIn.setBlockState(pos, blockHolder.getHeldBlock());
+                    worldIn.setBlockState(pos, blockHolder.getHeldBlock(), 2);
                     return;
                 }
             }

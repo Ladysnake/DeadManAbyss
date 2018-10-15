@@ -61,7 +61,7 @@ public class WorldMutationHandler {
                             Block result = MutationRegistry.getMutation(block);
                             if (result != null) {
                                 BlockPos pos = new BlockPos(randomX + x, randomZ + extendedblockstorage.getYLocation(), randomY + z);
-                                world.setBlockState(pos, result.getDefaultState());
+                                world.setBlockState(pos, result.getDefaultState(), 2);
                                 TileEntity te = world.getTileEntity(pos);
                                 if (te != null && te.hasCapability(CapabilityBlockHolder.CAPABILITY_BLOCK_HOLDER, null)) {
                                     te.getCapability(CapabilityBlockHolder.CAPABILITY_BLOCK_HOLDER, null).setHeldBlock(state);
