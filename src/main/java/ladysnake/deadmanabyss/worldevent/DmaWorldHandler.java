@@ -67,7 +67,7 @@ public class DmaWorldHandler {
     }
 
     public static boolean isPlayerReady(EntityPlayerMP player) {
-        return player.getAdvancements().getProgress(player.server.getAdvancementManager().getAdvancement(NETHER_ADVANCEMENT)).isDone();
+        return player.isCreative() || player.getAdvancements().getProgress(player.server.getAdvancementManager().getAdvancement(NETHER_ADVANCEMENT)).isDone();
     }
 
     private static int tickCounter;
