@@ -96,11 +96,11 @@ public class ModelScreecher extends ModelBase {
         this.head.rotateAngleY = (float) Math.toRadians(netHeadYaw);
         this.head.rotateAngleX = (float) Math.toRadians(headPitch);
 
-//        this.upperArmRight.rotateAngleZ = 0;//athis.computeAnimation(0.1F, 0.4F, false, 0.0F, -1.0F, age, -0.1F);
-//        this.upperArmLeft.rotateAngleZ = 0;//this.computeAnimation(0.1F, 0.4F, true, 0.0F, -1.0F, age, -0.1F);
-//
-//        this.lowerArmRight.rotateAngleZ = 0;//this.computeAnimation(0.1F, 0.4F, true, 0.4F, -1.0F, age, -0.1F);
-//        this.lowerArmLeft.rotateAngleZ = 0;//this.computeAnimation(0.1F, 0.4F, false, 0.4F, -1.0F, age, -0.1F);
+        this.upperArmRight.rotateAngleZ = 0.49774697671033563F + this.computeAnimation(0.1F, 0.4F, false, 0.0F, -1.0F, age, -0.1F);
+        this.upperArmLeft.rotateAngleZ = -0.5335151538014832F + this.computeAnimation(0.1F, 0.4F, true, 0.0F, -1.0F, age, -0.1F);
+
+        this.lowerArmRight.rotateAngleZ = this.computeAnimation(0.1F, 0.4F, true, 0.4F, -1.0F, age, -0.1F);
+        this.lowerArmLeft.rotateAngleZ = this.computeAnimation(0.1F, 0.4F, false, 0.4F, -1.0F, age, -0.1F);
 //
 //        boolean dragging = false;
 //
@@ -112,14 +112,14 @@ public class ModelScreecher extends ModelBase {
         this.upperLegRight.rotateAngleX =  this.computeAnimation(globalSpeed, globalDegree * 1.2F, false, 0.0F, -0.6F, limbSwing, limbSwingAmount);
         this.upperLegLeft.rotateAngleX =  this.computeAnimation(globalSpeed, globalDegree * 1.2F, true, 0.0F, 0.6F, limbSwing, limbSwingAmount);
 //
-        this.lowerLegRight.rotateAngleX = 0.6392548849943369F;//this.computeAnimation(globalSpeed, globalDegree * 0.65F, false, -2.2F, 1.0F, limbSwing, limbSwingAmount);
-        this.lowerLegLeft.rotateAngleX = 0.7954282294561152F;//this.computeAnimation(globalSpeed, globalDegree * 0.65F, true, -2.2F, -1.0F, limbSwing, limbSwingAmount);
+        this.lowerLegRight.rotateAngleX = 0.6392548849943369F+this.computeAnimation(globalSpeed, globalDegree * 0.65F, false, -2.2F, 1.0F, limbSwing, limbSwingAmount);
+        this.lowerLegLeft.rotateAngleX = 0.7954282294561152F+this.computeAnimation(globalSpeed, globalDegree * 0.65F, true, -2.2F, -1.0F, limbSwing, limbSwingAmount);
 //
-        this.upperArmRight.rotateAngleX = -0.09874139472463977F;//this.computeAnimation(globalSpeed, globalDegree * 0.8F, true, 0.0F, 0.0F, limbSwing, limbSwingAmount);
-        this.upperArmLeft.rotateAngleX = -0.04446097056613121F;//this.computeAnimation(globalSpeed, globalDegree * 0.8F, false, 0.0F, 0.0F, limbSwing, limbSwingAmount);
+        this.upperArmRight.rotateAngleX = -0.09874139472463977F+this.computeAnimation(globalSpeed, globalDegree * 0.8F, true, 0.0F, 0.0F, limbSwing, limbSwingAmount);
+        this.upperArmLeft.rotateAngleX = -0.04446097056613121F+this.computeAnimation(globalSpeed, globalDegree * 0.8F, false, 0.0F, 0.0F, limbSwing, limbSwingAmount);
 //
-        this.lowerArmRight.rotateAngleX = -0.8206538142877338F;//this.computeAnimation(globalSpeed, globalDegree * 0.6F, true, -1.4F, 0.7F, limbSwing, limbSwingAmount);
-        this.lowerArmLeft.rotateAngleX = -0.8206538142877338F;//this.computeAnimation(globalSpeed, globalDegree * 0.6F, false, -1.4F, -0.7F, limbSwing, limbSwingAmount);
+        this.lowerArmRight.rotateAngleX = -0.8206538142877338F+this.computeAnimation(globalSpeed, globalDegree * 0.6F, true, -1.4F, 0.7F, limbSwing, limbSwingAmount);
+        this.lowerArmLeft.rotateAngleX = -0.8206538142877338F+this.computeAnimation(globalSpeed, globalDegree * 0.6F, false, -1.4F, -0.7F, limbSwing, limbSwingAmount);
     }
 
     private float computeAnimation(float speed, float degree, boolean invert, float offset, float weight, float limbSwing, float limbSwingAmount) {
