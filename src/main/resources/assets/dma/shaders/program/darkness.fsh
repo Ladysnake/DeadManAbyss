@@ -2,8 +2,6 @@
 
 uniform sampler2D DiffuseSampler;
 
-uniform float Time;
-
 varying vec2 texCoord;
 
 void main() {
@@ -11,6 +9,5 @@ void main() {
     float greyscale = tex.r + tex.g + tex.b / 3.0;
     // the darker it is, ***the darker it becomes***
     tex *= 0.9 + (log2(greyscale) / log2(10.0)); // log10(greyscale)
-    // desaturate brighter areas
     gl_FragColor = tex;
 }

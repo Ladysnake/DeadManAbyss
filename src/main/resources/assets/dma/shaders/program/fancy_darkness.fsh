@@ -21,8 +21,6 @@ uniform ivec4 ViewPort;
 uniform LightStruct Lights[100];
 uniform int LightCount;
 
-uniform float Time;
-
 varying vec2 texCoord;
 varying vec4 vPosition;
 
@@ -54,7 +52,8 @@ void main()
     float distanceFromLight = 1.;
     for(int i = 0; i < LightCount; i++)
     {
-      float relativeDepth = clamp(1 - smoothstep(1 - Lights[i].radius, 1, 1 - distance(Lights[i].position, pixelPosition)), 0, 1);
+      // Interpolate the distance between the light and the current pixel from [0, radius] to [0, 1]
+      float relativeDepth = smoothstep(0, Lights[i].radius, distance(Lights[i].position, pixelPosition));
       distanceFromLight = min(distanceFromLight, relativeDepth);
     }
 
