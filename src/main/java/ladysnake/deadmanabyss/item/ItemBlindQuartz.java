@@ -12,7 +12,7 @@ public class ItemBlindQuartz extends Item {
 
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
-        if(!entityItem.world.isRemote && entityItem.getAge() > 100 && DmaConfig.triggers.quartzRitual && entityItem.isInWater() && entityItem.getEntityData().getBoolean("Trigger")) {
+        if(!entityItem.world.isRemote && entityItem.age > 100 && DmaConfig.triggers.quartzRitual && entityItem.isInWater() && entityItem.getEntityData().getBoolean("Trigger")) {
             DmaEventHandler cap = entityItem.world.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
             if(cap != null && cap.getTicksSinceLastEvent() >= DmaConfig.minTicksBetweenEvents) {
                 cap.startEvent();
