@@ -14,11 +14,13 @@ public class DmaNightPacket implements IMessageHandler<DmaNightMessage, IMessage
     @Nullable
     @Override
     public IMessage onMessage(DmaNightMessage message, MessageContext ctx) {
-        World world = Minecraft.getMinecraft().world;
-        DmaEventHandler cap = world.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
-        if (cap != null) {
-            cap.setTicksSinceLastEvent(message.ticks);
-        }
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            World world = Minecraft.getMinecraft().world;
+            DmaEventHandler cap = world.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
+            if (cap != null) {
+                cap.setTicksSinceLastEvent(message.ticks);
+            }
+        });
         return null;
     }
 }
