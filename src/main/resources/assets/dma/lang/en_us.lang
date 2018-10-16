@@ -2,7 +2,7 @@
 
 itemGroup.dma=Dead Man's Abyss
 
-dma.command.usage=/dma <on|off> [dimension]
+dma.command.usage=/dma <on|off|query> [dimension]
 dma.command.no_cap=The dma capability is not attached to the current world
 dma.command.status.on=Dead Man's Abyss is ON!
 dma.command.status.off=Dead Man's Abyss is OFF!
