@@ -1,29 +1,35 @@
 package ladysnake.deadmanabyss.worldevent;
 
-import ladylib.compat.EnhancedBusSubscriber;
-import ladysnake.deadmanabyss.*;
+import ladysnake.deadmanabyss.DeadManAbyss;
+import ladysnake.deadmanabyss.DmaConfig;
 import ladysnake.deadmanabyss.api.event.DmaEventHandler;
-import ladysnake.deadmanabyss.capability.*;
+import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
+import ladysnake.deadmanabyss.capability.CapabilityDmaSpawnable;
 import ladysnake.deadmanabyss.item.ItemBlindQuartz;
-import ladysnake.deadmanabyss.network.*;
+import ladysnake.deadmanabyss.network.DmaNightMessage;
+import ladysnake.deadmanabyss.network.PacketHandler;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.*;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.*;
-import net.minecraftforge.fml.common.gameevent.*;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-@EnhancedBusSubscriber(owner = DeadManAbyss.MOD_ID)
+@Mod.EventBusSubscriber(modid = DeadManAbyss.MOD_ID)
 public class DmaWorldHandler {
     private static final ResourceLocation NETHER_ADVANCEMENT = new ResourceLocation("minecraft:nether/root");
 
     @SubscribeEvent
-    public void onReturnFromPortal(PlayerEvent.PlayerChangedDimensionEvent event) {
-        if(!event.player.world.isRemote) {
+    public static void onReturnFromPortal(PlayerEvent.PlayerChangedDimensionEvent event) {
+        if (event.player instanceof EntityPlayerMP && ((EntityPlayerMP) event.player).connection != null) {
             WorldServer world = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(event.toDim);
             DmaEventHandler cap = world.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
             if(cap != null) {
@@ -48,23 +54,26 @@ public class DmaWorldHandler {
     }
 
     @SubscribeEvent
-    public void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
+    public static void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
         notifyPlayer(event);
     }
 
     @SubscribeEvent
-    public void onLogIn(PlayerEvent.PlayerLoggedInEvent event) {
-        notifyPlayer(event);
+    public static void onLogIn(PlayerEvent.PlayerLoggedInEvent event) {
+        // FIXME y u no work on dedotated servers - pyro
+        if (FMLCommonHandler.instance().getSide().isClient()) {
+            notifyPlayer(event);
+        }
     }
 
     public static boolean isPlayerReady(EntityPlayerMP player) {
         return player.getAdvancements().getProgress(player.server.getAdvancementManager().getAdvancement(NETHER_ADVANCEMENT)).isDone();
     }
 
-    private int tickCounter;
+    private static int tickCounter;
 
     @SubscribeEvent
-    public void onTickWorldTick(TickEvent.WorldTickEvent event) {
+    public static void onTickWorldTick(TickEvent.WorldTickEvent event) {
         if(event.phase == TickEvent.Phase.START && !event.world.isRemote) {
             DmaEventHandler cap = event.world.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
             if(cap != null) {
@@ -85,14 +94,14 @@ public class DmaWorldHandler {
     }
 
     @SubscribeEvent
-    public void onWorldLoad(WorldEvent.Load event) {
+    public static void onWorldLoad(WorldEvent.Load event) {
         if(!event.getWorld().isRemote) {
             event.getWorld().addEventListener(new DmaWorldListener((WorldServer) event.getWorld()));
         }
     }
 
     @SubscribeEvent
-    public void onLivingSpawnCheckSpawn(LivingSpawnEvent.CheckSpawn event) {
+    public static void onLivingSpawnCheckSpawn(LivingSpawnEvent.CheckSpawn event) {
         DmaEventHandler cap = event.getWorld().getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
         if(cap != null && cap.isEventOccuring() && event.getEntity().getCapability(CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY, null) == null) {
             event.setResult(Event.Result.DENY);
@@ -100,7 +109,7 @@ public class DmaWorldHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerDropQuartz(ItemTossEvent event) {
+    public static void onPlayerDropQuartz(ItemTossEvent event) {
         if(!event.getPlayer().world.isRemote) {
             EntityItem item = event.getEntityItem();
             if(item.getItem().getItem() instanceof ItemBlindQuartz) {
