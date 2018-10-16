@@ -5,8 +5,8 @@ import ladylib.capability.SimpleProvider;
 import ladylib.misc.CalledThroughReflection;
 import ladysnake.deadmanabyss.DeadManAbyss;
 import ladysnake.deadmanabyss.DmaConfig;
-import ladysnake.deadmanabyss.api.event.DmaNightEvent;
 import ladysnake.deadmanabyss.api.event.DmaEventHandler;
+import ladysnake.deadmanabyss.api.event.DmaNightEvent;
 import ladysnake.deadmanabyss.network.DmaNightMessage;
 import ladysnake.deadmanabyss.network.PacketHandler;
 import ladysnake.deadmanabyss.worldevent.SunsetHandler;
@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
 public class CapabilityDmaEvent implements DmaEventHandler {
     private static final float TRANSITION_TIME = 600f;
 
-    private int ticksSinceLastEvent;
+    private int ticksSinceLastEvent = DmaConfig.minTicksBetweenEvents;
     private transient World owner;
 
     @CalledThroughReflection
