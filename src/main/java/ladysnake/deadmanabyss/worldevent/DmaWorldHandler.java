@@ -84,8 +84,7 @@ public class DmaWorldHandler {
                         float angle = event.world.getCelestialAngle(1.0F);
 
                         if(angle > 0.76F) cap.stopEvent(); //stop the night at dawn
-                    }
-                    else {
+                    } else {
                         //TODO randomly start night if time is around sunset, but only check once per ingame day! ^Up
                     }
                 }
@@ -96,7 +95,8 @@ public class DmaWorldHandler {
     @SubscribeEvent
     public static void onWorldLoad(WorldEvent.Load event) {
         if(!event.getWorld().isRemote) {
-            event.getWorld().addEventListener(new DmaWorldListener((WorldServer) event.getWorld()));
+            DmaWorldListener worldListener = new DmaWorldListener((WorldServer) event.getWorld());
+            event.getWorld().addEventListener(worldListener);
         }
     }
 

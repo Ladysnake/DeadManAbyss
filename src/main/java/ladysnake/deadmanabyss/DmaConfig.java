@@ -30,6 +30,10 @@ public class DmaConfig {
     @Config.Comment("The whitelist for entities that can spawn during the event") //TODO add own entities to the whitelist (think about pack makers)?
     public static String[] entityWhiteList = {"harvestersnight:harvester", "eyesinthedarkness:eyes", "scarecrows:scarecrow"};
 
+    @Config.Name("Max Hearing Distance")
+    @Config.Comment({"The maximum distance screechers at which screechers can possibly hear a sound"})
+    public static int maxScreecherHearingDistance = 64;
+
     @Config.Name("Trigger Config")
     @Config.Comment("Configure the specific triggers separately")
     public static final Triggers triggers = new Triggers();
@@ -39,6 +43,8 @@ public class DmaConfig {
     public static final Client client = new Client();
 
     public static class Client {
+        @Config.Name("Fancy Shader")
+        @Config.Comment("If set to false, a barebones more performant shader will be used for the event.")
         public boolean fancyShader = true;
     }
 
