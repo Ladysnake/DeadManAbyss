@@ -1,3 +1,6 @@
+##### Version 1.12.2-0.1.3 - BUILT
+- Fixed lightning bolts freezing the game for several seconds
+
 ##### Version 1.12.2-0.1.2 - BUILT
 - Added a `query` possible argument to the `/dma` command
 - Fixed new worlds requiring a 4 days wait before triggering the event
