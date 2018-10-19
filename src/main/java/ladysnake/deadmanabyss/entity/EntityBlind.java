@@ -1,7 +1,7 @@
 package ladysnake.deadmanabyss.entity;
 
 import ladysnake.deadmanabyss.DeadManAbyss;
-import ladysnake.deadmanabyss.api.event.DmaSpawnable;
+import ladysnake.deadmanabyss.api.capability.DmaSpawnable;
 import ladysnake.deadmanabyss.capability.CapabilityDmaSpawnable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;

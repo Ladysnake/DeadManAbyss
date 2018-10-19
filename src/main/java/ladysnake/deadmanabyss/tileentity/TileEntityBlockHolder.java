@@ -1,6 +1,6 @@
 package ladysnake.deadmanabyss.tileentity;
 
-import ladysnake.deadmanabyss.api.event.BlockHolderHandler;
+import ladysnake.deadmanabyss.api.capability.BlockHolderHandler;
 import ladysnake.deadmanabyss.capability.CapabilityBlockHolder;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

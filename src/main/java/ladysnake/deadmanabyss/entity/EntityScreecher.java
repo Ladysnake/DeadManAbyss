@@ -1,7 +1,7 @@
 package ladysnake.deadmanabyss.entity;
 
-import ladysnake.deadmanabyss.api.event.DmaEventHandler;
-import ladysnake.deadmanabyss.api.event.DmaSpawnable;
+import ladysnake.deadmanabyss.api.capability.DmaEventHandler;
+import ladysnake.deadmanabyss.api.capability.DmaSpawnable;
 import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
 import ladysnake.deadmanabyss.capability.CapabilityDmaSpawnable;
 import ladysnake.deadmanabyss.entity.ai.EntityAIScreecherApproachSound;

@@ -1,4 +1,4 @@
-package ladysnake.deadmanabyss.api.event;
+package ladysnake.deadmanabyss.api.capability;
 
 public interface DmaEventHandler {
     int getTicksSinceLastEvent();

@@ -1,9 +1,9 @@
 package ladysnake.deadmanabyss.block;
 
-import ladysnake.deadmanabyss.api.event.DmaEventHandler;
-import ladysnake.deadmanabyss.api.event.BlockHolderHandler;
-import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
+import ladysnake.deadmanabyss.api.capability.BlockHolderHandler;
+import ladysnake.deadmanabyss.api.capability.DmaEventHandler;
 import ladysnake.deadmanabyss.capability.CapabilityBlockHolder;
+import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
 import ladysnake.deadmanabyss.tileentity.TileEntityBlockHolder;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.state.BlockStateContainer;

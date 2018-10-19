@@ -1,7 +1,7 @@
 package ladysnake.deadmanabyss.capability;
 
 import ladylib.capability.AutoCapability;
-import ladysnake.deadmanabyss.api.event.DmaSpawnable;
+import ladysnake.deadmanabyss.api.capability.DmaSpawnable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 

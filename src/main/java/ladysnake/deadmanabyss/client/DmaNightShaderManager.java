@@ -4,7 +4,7 @@ import ladylib.client.shader.ShaderUtil;
 import ladylib.compat.EnhancedBusSubscriber;
 import ladysnake.deadmanabyss.DeadManAbyss;
 import ladysnake.deadmanabyss.DmaConfig;
-import ladysnake.deadmanabyss.api.event.DmaEventHandler;
+import ladysnake.deadmanabyss.api.capability.DmaEventHandler;
 import ladysnake.deadmanabyss.block.BlockMutatedBush;
 import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
 import ladysnake.deadmanabyss.init.ModItems;

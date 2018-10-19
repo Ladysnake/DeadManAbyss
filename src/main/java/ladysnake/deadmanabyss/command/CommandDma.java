@@ -1,6 +1,6 @@
 package ladysnake.deadmanabyss.command;
 
-import ladysnake.deadmanabyss.api.event.DmaEventHandler;
+import ladysnake.deadmanabyss.api.capability.DmaEventHandler;
 import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;

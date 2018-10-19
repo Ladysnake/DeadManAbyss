@@ -1,4 +1,4 @@
-package ladysnake.deadmanabyss.api.event;
+package ladysnake.deadmanabyss.api.capability;
 
 import net.minecraft.block.state.IBlockState;
 

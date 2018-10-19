@@ -1,9 +1,9 @@
 package ladysnake.deadmanabyss.worldevent;
 
 import ladysnake.deadmanabyss.api.MutationRegistry;
-import ladysnake.deadmanabyss.api.event.DmaEventHandler;
-import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
+import ladysnake.deadmanabyss.api.capability.DmaEventHandler;
 import ladysnake.deadmanabyss.capability.CapabilityBlockHolder;
+import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;

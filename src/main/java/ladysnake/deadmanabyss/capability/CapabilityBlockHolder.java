@@ -1,7 +1,7 @@
 package ladysnake.deadmanabyss.capability;
 
 import ladylib.capability.AutoCapability;
-import ladysnake.deadmanabyss.api.event.BlockHolderHandler;
+import ladysnake.deadmanabyss.api.capability.BlockHolderHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTBase;

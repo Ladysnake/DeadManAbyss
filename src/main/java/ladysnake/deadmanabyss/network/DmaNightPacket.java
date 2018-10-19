@@ -1,6 +1,6 @@
 package ladysnake.deadmanabyss.network;
 
-import ladysnake.deadmanabyss.api.event.DmaEventHandler;
+import ladysnake.deadmanabyss.api.capability.DmaEventHandler;
 import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
