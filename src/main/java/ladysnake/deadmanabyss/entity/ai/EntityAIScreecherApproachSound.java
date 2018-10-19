@@ -1,6 +1,7 @@
 package ladysnake.deadmanabyss.entity.ai;
 
 import ladysnake.deadmanabyss.entity.EntityScreecher;
+import ladysnake.deadmanabyss.entity.SoundLocation;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.util.math.Vec3d;
@@ -25,14 +26,14 @@ public class EntityAIScreecherApproachSound extends EntityAIBase {
      * Returns whether the EntityAIBase should begin execution.
      */
     public boolean shouldExecute() {
-        Iterator<EntityScreecher.SoundLocation> iterator = this.creature.getSoundsHeard().iterator();
+        Iterator<SoundLocation> iterator = this.creature.getSoundsHeard().iterator();
         if (!iterator.hasNext()) {
             return false;
         }
-        EntityScreecher.SoundLocation loc = iterator.next();
+        SoundLocation loc = iterator.next();
         double locDistanceSq = this.creature.getDistanceSq(loc.getX(), loc.getY(), loc.getZ());
         while (iterator.hasNext()) {
-            EntityScreecher.SoundLocation next = iterator.next();
+            SoundLocation next = iterator.next();
             double distanceSq = this.creature.getDistanceSq(next.getX(), next.getY(), next.getZ());
             // don't seek any sound closer than 8 blocks + max by weight then min distance
             if (distanceSq > MIN_SEEK_DISTANCE_SQ && (locDistanceSq < MIN_SEEK_DISTANCE_SQ ||

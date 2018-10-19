@@ -1,11 +1,13 @@
 package ladysnake.deadmanabyss.entity;
 
+import ladysnake.deadmanabyss.DmaConfig;
 import ladysnake.deadmanabyss.api.capability.DmaEventHandler;
 import ladysnake.deadmanabyss.api.capability.DmaSpawnable;
 import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
 import ladysnake.deadmanabyss.capability.CapabilityDmaSpawnable;
 import ladysnake.deadmanabyss.entity.ai.EntityAIScreecherApproachSound;
 import ladysnake.deadmanabyss.entity.ai.EntityAIScreecherNearestAttackableTarget;
+import ladysnake.deadmanabyss.worldevent.DmaWorldHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,14 +20,14 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class EntityScreecher extends EntityMob {
     private static final DataParameter<Boolean> BLOODY = EntityDataManager.createKey(EntityScreecher.class, DataSerializers.BOOLEAN);
@@ -109,7 +111,7 @@ public class EntityScreecher extends EntityMob {
     @Override
     public boolean canEntityBeSeen(Entity entityIn) {
         for (SoundLocation soundLocation : soundsHeard) {
-            if (entityIn.getDistanceSq(soundLocation.x, soundLocation.y, soundLocation.z) < BASE_TRACKED_DISTANCE_FROM_SOUND_SQ * soundLocation.getWeight()) {
+            if (entityIn.getDistanceSq(soundLocation.getX(), soundLocation.getY(), soundLocation.getZ()) < BASE_TRACKED_DISTANCE_FROM_SOUND_SQ * soundLocation.getWeight()) {
                 return true;
             }
         }
@@ -141,68 +143,42 @@ public class EntityScreecher extends EntityMob {
                 }
             }
         }
-    }
-
-    public void onSoundHeard(SoundEvent soundIn, SoundCategory category, double x, double y, double z, float volume) {
-        // Check that the sound is not from the screecher itself
-        if (category != SoundCategory.AMBIENT && this.getDistanceSq(x, y, z) > 4) {
-            SoundLocation loc = new SoundLocation(x, y, z, volume);
-            Optional<SoundLocation> existing = soundsHeard.stream()
-                    .filter(sl -> sl.squareDistanceTo(loc) < SoundLocation.MAX_SOUND_MERGE_DISTANCE_SQ)
-                    .min(Comparator.comparing(loc::squareDistanceTo));
-            if (existing.isPresent()) {
-                existing.get().merge(loc);
-            } else {
-                soundsHeard.add(loc);
+        // Die if there is no event occuring
+        DmaEventHandler handler = this.world.getCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null);
+        if (handler == null || !handler.isEventOccuring()) {
+            this.setFire(4);
+            this.dealFireDamage(5);
+        } else {
+            // Add new sounds
+            for (SoundLocation sound : DmaWorldHandler.getSoundsPlayed(world)) {
+                float radius = Math.min(sound.getWeight() * 24, DmaConfig.maxScreecherHearingDistance);
+                double distanceSq = this.getDistanceSq(sound.getX(), sound.getY(), sound.getZ());
+                // Check that the sound is not outside of range or from the screecher itself
+                if (distanceSq < radius * radius && distanceSq > 4) {
+                    this.onSoundHeard(sound);
+                }
             }
         }
     }
 
-    public static class SoundLocation {
-        public static final int MAX_SOUND_MERGE_DISTANCE_SQ = 25;
-
-        private double x, y, z;
-        private float weight;
-
-        public SoundLocation(double x, double y, double z, float volume) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.weight = volume;
+    public void onSoundHeard(SoundLocation loc) {
+        SoundLocation nearest = null;
+        double sqDistanceToNearest = Double.POSITIVE_INFINITY;
+        // Look for the nearest known sound that can be merged with this one
+        for (SoundLocation existing : soundsHeard) {
+            double sqDistance = loc.squareDistanceTo(existing);
+            if (sqDistance < SoundLocation.MAX_SOUND_MERGE_DISTANCE_SQ) {
+                if (nearest == null || sqDistance < sqDistanceToNearest) {
+                    nearest = existing;
+                    sqDistanceToNearest = sqDistance;
+                }
+            }
         }
-
-        public double squareDistanceTo(SoundLocation vec) {
-            double d0 = vec.x - this.x;
-            double d1 = vec.y - this.y;
-            double d2 = vec.z - this.z;
-            return d0 * d0 + d1 * d1 + d2 * d2;
-        }
-
-        public void merge(SoundLocation that) {
-            this.x = ((this.x * this.weight) + (that.x * that.weight)) / (this.weight + that.weight);
-            this.y = ((this.y * this.weight) + (that.y * that.weight)) / (this.weight + that.weight);
-            this.z = ((this.z * this.weight) + (that.z * that.weight)) / (this.weight + that.weight);
-            this.weight += that.weight;
-        }
-
-        public float getWeight() {
-            return this.weight;
-        }
-
-        public void fade(float v) {
-            this.weight -= v;
-        }
-
-        public double getX() {
-            return x;
-        }
-
-        public double getY() {
-            return y;
-        }
-
-        public double getZ() {
-            return z;
+        if (nearest != null) {
+            nearest.merge(loc);
+        } else {
+            soundsHeard.add(loc);
         }
     }
+
 }

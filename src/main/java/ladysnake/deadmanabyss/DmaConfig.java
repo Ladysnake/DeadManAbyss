@@ -31,7 +31,7 @@ public class DmaConfig {
     public static String[] entityWhiteList = {"harvestersnight:harvester", "eyesinthedarkness:eyes", "scarecrows:scarecrow"};
 
     @Config.Name("Max Hearing Distance")
-    @Config.Comment({"The maximum distance screechers at which screechers can possibly hear a sound"})
+    @Config.Comment({"The maximum distance in blocks at which screechers can possibly hear a sound"})
     public static int maxScreecherHearingDistance = 64;
 
     @Config.Name("Trigger Config")

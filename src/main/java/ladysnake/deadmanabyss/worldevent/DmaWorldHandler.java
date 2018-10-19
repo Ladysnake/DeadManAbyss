@@ -5,6 +5,7 @@ import ladysnake.deadmanabyss.DmaConfig;
 import ladysnake.deadmanabyss.api.capability.DmaEventHandler;
 import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
 import ladysnake.deadmanabyss.capability.CapabilityDmaSpawnable;
+import ladysnake.deadmanabyss.entity.SoundLocation;
 import ladysnake.deadmanabyss.item.ItemBlindQuartz;
 import ladysnake.deadmanabyss.network.DmaNightMessage;
 import ladysnake.deadmanabyss.network.PacketHandler;
@@ -23,9 +24,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+
 @Mod.EventBusSubscriber(modid = DeadManAbyss.MOD_ID)
 public class DmaWorldHandler {
     private static final ResourceLocation NETHER_ADVANCEMENT = new ResourceLocation("minecraft:nether/root");
+    private static final Map<World, DmaWorldListener> worldListeners = new WeakHashMap<>();
 
     @SubscribeEvent
     public static void onReturnFromPortal(PlayerEvent.PlayerChangedDimensionEvent event) {
@@ -89,13 +95,15 @@ public class DmaWorldHandler {
                     }
                 }
             }
+        } else if (event.phase == TickEvent.Phase.END && !event.world.isRemote) {
+            worldListeners.get(event.world).clearSounds();
         }
     }
 
     @SubscribeEvent
     public static void onWorldLoad(WorldEvent.Load event) {
-        if(!event.getWorld().isRemote) {
-            DmaWorldListener worldListener = new DmaWorldListener((WorldServer) event.getWorld());
+        if(!event.getWorld().isRemote && event.getWorld().hasCapability(CapabilityDmaEvent.CAPABILITY_DMA_EVENT, null)) {
+            DmaWorldListener worldListener = new DmaWorldListener();
             event.getWorld().addEventListener(worldListener);
         }
     }
@@ -118,6 +126,9 @@ public class DmaWorldHandler {
                 }
             }
         }
+    }
 
+    public static List<SoundLocation> getSoundsPlayed(World world) {
+        return worldListeners.get(world).sounds;
     }
 }

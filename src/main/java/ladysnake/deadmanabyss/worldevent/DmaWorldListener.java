@@ -1,25 +1,24 @@
 package ladysnake.deadmanabyss.worldevent;
 
-import ladysnake.deadmanabyss.DmaConfig;
-import ladysnake.deadmanabyss.entity.EntityScreecher;
+import ladysnake.deadmanabyss.entity.SoundLocation;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldEventListener;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DmaWorldListener implements IWorldEventListener {
-    private WorldServer world;
+    List<SoundLocation> sounds;
 
-    public DmaWorldListener(WorldServer world) {
-        this.world = world;
+    public DmaWorldListener() {
+        this.sounds = new ArrayList<>();
     }
 
     @Override
@@ -39,10 +38,8 @@ public class DmaWorldListener implements IWorldEventListener {
 
     @Override
     public void playSoundToAllNearExcept(@Nullable EntityPlayer player, SoundEvent soundIn, SoundCategory category, double x, double y, double z, float volume, float pitch) {
-        // get all banshees within a radius of up to (24 blocks * volume) from the sound.
-        float radius = Math.min(volume * 24, DmaConfig.maxScreecherHearingDistance);
-        for (EntityScreecher banshee : world.getEntitiesWithinAABB(EntityScreecher.class, new AxisAlignedBB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1).grow(radius))) {
-            banshee.onSoundHeard(soundIn, category, x, y, z, volume);
+        if (category != SoundCategory.AMBIENT) {
+            sounds.add(new SoundLocation(x, y, z, volume));
         }
     }
 
@@ -84,5 +81,9 @@ public class DmaWorldListener implements IWorldEventListener {
     @Override
     public void sendBlockBreakProgress(int breakerId, BlockPos pos, int progress) {
 
+    }
+
+    public void clearSounds() {
+        this.sounds.clear();
     }
 }
