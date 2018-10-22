@@ -81,11 +81,11 @@ public class DmaConfig {
 
         @Config.RequiresMcRestart
         @Config.Name("Screecher")
-        public final EntitySpawn screecher = new EntitySpawn(2, 1, 1);
+        public final EntitySpawn screecher = new EntitySpawn(1, 1, 1);
 
         @Config.RequiresMcRestart
         @Config.Name("Blind")
-        public final EntitySpawn blind = new EntitySpawn(1, 1, 1);
+        public final EntitySpawn blind = new EntitySpawn(2, 1, 1);
 
     }
 
