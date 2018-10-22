@@ -1,3 +1,6 @@
+##### Version 1.12.2-0.1.4 - BUILT
+- Made spawns configurable
+
 ##### Version 1.12.2-0.1.3 - BUILT
 - Fixed lightning bolts freezing the game for several seconds
 
