@@ -1,7 +1,7 @@
 package ladysnake.deadmanabyss.worldevent;
 
 import ladysnake.deadmanabyss.DeadManAbyss;
-import ladysnake.deadmanabyss.DmaConfig;
+import ladysnake.deadmanabyss.config.DmaConfig;
 import ladysnake.deadmanabyss.api.capability.DmaEventHandler;
 import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;
 import ladysnake.deadmanabyss.capability.CapabilityDmaSpawnable;

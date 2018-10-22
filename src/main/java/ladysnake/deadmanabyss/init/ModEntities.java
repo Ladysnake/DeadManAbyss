@@ -3,6 +3,7 @@ package ladysnake.deadmanabyss.init;
 import ladysnake.deadmanabyss.DeadManAbyss;
 import ladysnake.deadmanabyss.client.render.entity.RenderBlind;
 import ladysnake.deadmanabyss.client.render.entity.RenderScreecher;
+import ladysnake.deadmanabyss.config.DmaConfig;
 import ladysnake.deadmanabyss.entity.EntityBlind;
 import ladysnake.deadmanabyss.entity.EntityScreecher;
 import net.minecraft.entity.EnumCreatureType;
@@ -29,7 +30,7 @@ public class ModEntities {
                         .id(new ResourceLocation(DeadManAbyss.MOD_ID, "screecher"), id++)
                         .name(DeadManAbyss.MOD_ID + ".screecher")
                         .egg(0xFFFFFF, 0xAAAAAA)
-                        .spawn(EnumCreatureType.MONSTER, 1, 1, 1, ForgeRegistries.BIOMES.getValuesCollection())
+                        .spawn(EnumCreatureType.MONSTER, DmaConfig.spawns.screecher.spawnRate, DmaConfig.spawns.screecher.minGroupSize, DmaConfig.spawns.screecher.maxGroupSize, ForgeRegistries.BIOMES.getValuesCollection())
                         .tracker(64, 1, true)
                         .factory(EntityScreecher::new)
                         .build(),
@@ -38,7 +39,7 @@ public class ModEntities {
                         .id(new ResourceLocation(DeadManAbyss.MOD_ID, "blind"), id++)
                         .name(DeadManAbyss.MOD_ID + ".blind")
                         .egg(0x111111, 0xAAAAAA)
-                        .spawn(EnumCreatureType.MONSTER, 1, 1, 1, ForgeRegistries.BIOMES.getValuesCollection())
+                        .spawn(EnumCreatureType.MONSTER, DmaConfig.spawns.blind.spawnRate, DmaConfig.spawns.blind.minGroupSize, DmaConfig.spawns.blind.maxGroupSize, ForgeRegistries.BIOMES.getValuesCollection())
                         .tracker(64, 1, true)
                         .factory(EntityBlind::new)
                         .build()

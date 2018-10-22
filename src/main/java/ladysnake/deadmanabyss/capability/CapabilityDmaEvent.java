@@ -4,7 +4,7 @@ import ladylib.capability.AutoCapability;
 import ladylib.capability.SimpleProvider;
 import ladylib.misc.CalledThroughReflection;
 import ladysnake.deadmanabyss.DeadManAbyss;
-import ladysnake.deadmanabyss.DmaConfig;
+import ladysnake.deadmanabyss.config.DmaConfig;
 import ladysnake.deadmanabyss.api.capability.DmaEventHandler;
 import ladysnake.deadmanabyss.api.event.DmaNightEvent;
 import ladysnake.deadmanabyss.network.DmaNightMessage;

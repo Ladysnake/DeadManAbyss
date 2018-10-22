@@ -31,7 +31,6 @@ public class EntityScreecher extends EntityMob {
     private static final DataParameter<Boolean> BLOODY = EntityDataManager.createKey(EntityScreecher.class, DataSerializers.BOOLEAN);
     public static final int BASE_TRACKED_DISTANCE_FROM_SOUND_SQ = 9;
 
-    private final DmaSpawnable capabilitySpawn = CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY.getDefaultInstance();
     private List<SoundLocation> soundsHeard = new ArrayList<>();
 
     public EntityScreecher(World worldIn) {
@@ -114,17 +113,6 @@ public class EntityScreecher extends EntityMob {
             }
         }
         return false;
-    }
-
-    @Override
-    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @Nullable
-    @Override
-    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY ? CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY.cast(capabilitySpawn) : super.getCapability(capability, facing);
     }
 
     @Override

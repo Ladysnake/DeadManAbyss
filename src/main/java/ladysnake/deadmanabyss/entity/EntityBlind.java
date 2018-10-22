@@ -31,7 +31,6 @@ public class EntityBlind extends EntityMob {
     private static final UUID BABY_SPEED_BOOST_ID = UUID.fromString("54b625b3-e51b-4612-9d14-d7d1b5f55002");
     private static final AttributeModifier BABY_SPEED_BOOST = new AttributeModifier(BABY_SPEED_BOOST_ID, "Baby speed boost", 0.5D, 1);
     private static final DataParameter<Boolean> ARMS_RAISED = EntityDataManager.createKey(EntityZombie.class, DataSerializers.BOOLEAN);
-    private final DmaSpawnable CAPABILITY_SPAWN = CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY.getDefaultInstance();
     private static final float width = 0.6F;
     private static final float height = 1.95F;
 
@@ -58,17 +57,6 @@ public class EntityBlind extends EntityMob {
         super.entityInit();
         this.dataManager.register(IS_CHILD, false);
         this.dataManager.register(ARMS_RAISED, false);
-    }
-
-    @Override
-    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @Nullable
-    @Override
-    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY ? CapabilityDmaSpawnable.DMA_SPAWNABLE_CAPABILITY.cast(CAPABILITY_SPAWN) : super.getCapability(capability, facing);
     }
 
     @Override

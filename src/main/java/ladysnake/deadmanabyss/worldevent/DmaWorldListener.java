@@ -1,6 +1,6 @@
 package ladysnake.deadmanabyss.worldevent;
 
-import ladysnake.deadmanabyss.DmaConfig;
+import ladysnake.deadmanabyss.config.DmaConfig;
 import ladysnake.deadmanabyss.entity.EntityScreecher;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;

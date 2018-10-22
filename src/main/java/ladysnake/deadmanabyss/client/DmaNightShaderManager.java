@@ -3,7 +3,7 @@ package ladysnake.deadmanabyss.client;
 import ladylib.client.shader.ShaderUtil;
 import ladylib.compat.EnhancedBusSubscriber;
 import ladysnake.deadmanabyss.DeadManAbyss;
-import ladysnake.deadmanabyss.DmaConfig;
+import ladysnake.deadmanabyss.config.DmaConfig;
 import ladysnake.deadmanabyss.api.capability.DmaEventHandler;
 import ladysnake.deadmanabyss.block.BlockMutatedBush;
 import ladysnake.deadmanabyss.capability.CapabilityDmaEvent;

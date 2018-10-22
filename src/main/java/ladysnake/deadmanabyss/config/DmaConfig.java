@@ -1,5 +1,6 @@
-package ladysnake.deadmanabyss;
+package ladysnake.deadmanabyss.config;
 
+import ladysnake.deadmanabyss.DeadManAbyss;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -18,17 +19,25 @@ public class DmaConfig {
     @Config.RangeDouble(min = 0.0D, max = 1.0D)
     @Config.Name("Event Probability")
     @Config.Comment("The probability of an event starting at any given trigger")
-    public static double eventProbability = 0.01D;
+    public static double eventProbability = 0.025D;
 
     @Config.RequiresMcRestart
     @Config.Name("Dimension Whitelist")
-    @Config.Comment("The whitelist for dimensions in which the event can occur")
-    public static int[] dimWhiteList = {0};
+    @Config.Comment({"The whitelist for dimensions in which the event can occur", "by default, the event only affects the vanilla overworld, but other dimensions can be added here"})
+    public static int[] dimWhiteList = {
+            0
+    };
 
     @Config.RequiresMcRestart
     @Config.Name(("Entity Whitelist"))
-    @Config.Comment("The whitelist for entities that can spawn during the event") //TODO add own entities to the whitelist (think about pack makers)?
-    public static String[] entityWhiteList = {"harvestersnight:harvester", "eyesinthedarkness:eyes", "scarecrows:scarecrow"};
+    @Config.Comment("The whitelist for entities that can spawn during the event")
+    public static String[] entityWhiteList = {
+            "dma:screecher",
+            "dma:blind",
+            "harvestersnight:harvester",
+            "eyesinthedarkness:eyes",
+            "scarecrows:scarecrow"
+    };
 
     @Config.Name("Max Hearing Distance")
     @Config.Comment({"The maximum distance screechers at which screechers can possibly hear a sound"})
@@ -41,6 +50,10 @@ public class DmaConfig {
     @Config.Name("Client Config")
     @Config.Comment("Configure client settings")
     public static final Client client = new Client();
+
+    @Config.Name("Entity Spawn Config")
+    @Config.Comment("Configure the spawn rates of entities")
+    public static final Spawn spawns = new Spawn();
 
     public static class Client {
         @Config.Name("Fancy Shader")
@@ -64,6 +77,17 @@ public class DmaConfig {
         public boolean quartzRitual = true;
     }
 
+    public static class Spawn {
+
+        @Config.RequiresMcRestart
+        @Config.Name("Screecher")
+        public final EntitySpawn screecher = new EntitySpawn(2, 1, 1);
+
+        @Config.RequiresMcRestart
+        @Config.Name("Blind")
+        public final EntitySpawn blind = new EntitySpawn(1, 1, 1);
+
+    }
 
     @SubscribeEvent
     public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
